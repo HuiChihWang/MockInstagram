@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C4E399E2680C52200BD9C65 /* IGBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E399D2680C52200BD9C65 /* IGBackgroundView.swift */; };
+		0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */; };
+		0C4E39A22680EF6A00BD9C65 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E39A12680EF6A00BD9C65 /* AuthenticationViewModel.swift */; };
 		0CB4584D267B1A5D00773DBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4584C267B1A5D00773DBD /* AppDelegate.swift */; };
 		0CB4584F267B1A5D00773DBD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4584E267B1A5D00773DBD /* SceneDelegate.swift */; };
 		0CB45851267B1A5D00773DBD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB45850267B1A5D00773DBD /* ViewController.swift */; };
@@ -21,9 +24,15 @@
 		0CB45876267B1DBE00773DBD /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB45875267B1DBE00773DBD /* ProfileController.swift */; };
 		0CB45879267B29F400773DBD /* PostViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB45878267B29F400773DBD /* PostViewCell.swift */; };
 		0CB4587B267B357A00773DBD /* layoutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587A267B357A00773DBD /* layoutUtil.swift */; };
+		0CB4587E267CCBC300773DBD /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587D267CCBC300773DBD /* LoginController.swift */; };
+		0CB45880267CCBDD00773DBD /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587F267CCBDD00773DBD /* RegistrationController.swift */; };
+		0CB458AA2680BE2400773DBD /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB458A92680BE2400773DBD /* LoginTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C4E399D2680C52200BD9C65 /* IGBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGBackgroundView.swift; sourceTree = "<group>"; };
+		0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TwoPartTextButton.swift; path = MockInstagram/Controller/Authentication/TwoPartTextButton.swift; sourceTree = SOURCE_ROOT; };
+		0C4E39A12680EF6A00BD9C65 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = SOURCE_ROOT; };
 		0CB45849267B1A5D00773DBD /* MockInstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MockInstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CB4584C267B1A5D00773DBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CB4584E267B1A5D00773DBD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +49,9 @@
 		0CB45875267B1DBE00773DBD /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		0CB45878267B29F400773DBD /* PostViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewCell.swift; sourceTree = "<group>"; };
 		0CB4587A267B357A00773DBD /* layoutUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layoutUtil.swift; sourceTree = "<group>"; };
+		0CB4587D267CCBC300773DBD /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		0CB4587F267CCBDD00773DBD /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		0CB458A92680BE2400773DBD /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +119,7 @@
 		0CB45867267B1AC300773DBD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0CB4587C267CCB8D00773DBD /* Authentication */,
 				0CB4586B267B1D1300773DBD /* MainTabBarController.swift */,
 				0CB4586D267B1D4700773DBD /* FeedController.swift */,
 				0CB4586F267B1D7200773DBD /* SearchController.swift */,
@@ -120,6 +133,7 @@
 		0CB45868267B1AC600773DBD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0C4E39A12680EF6A00BD9C65 /* AuthenticationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -127,7 +141,10 @@
 		0CB45869267B1AC800773DBD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */,
+				0CB458A92680BE2400773DBD /* LoginTextField.swift */,
 				0CB45878267B29F400773DBD /* PostViewCell.swift */,
+				0C4E399D2680C52200BD9C65 /* IGBackgroundView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -137,6 +154,15 @@
 			children = (
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0CB4587C267CCB8D00773DBD /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				0CB4587D267CCBC300773DBD /* LoginController.swift */,
+				0CB4587F267CCBDD00773DBD /* RegistrationController.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,10 +236,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CB45874267B1DA400773DBD /* ImageSelectorController.swift in Sources */,
+				0CB45880267CCBDD00773DBD /* RegistrationController.swift in Sources */,
+				0C4E39A22680EF6A00BD9C65 /* AuthenticationViewModel.swift in Sources */,
+				0C4E399E2680C52200BD9C65 /* IGBackgroundView.swift in Sources */,
+				0CB4587E267CCBC300773DBD /* LoginController.swift in Sources */,
+				0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */,
 				0CB45851267B1A5D00773DBD /* ViewController.swift in Sources */,
 				0CB45870267B1D7200773DBD /* SearchController.swift in Sources */,
 				0CB4584D267B1A5D00773DBD /* AppDelegate.swift in Sources */,
 				0CB45879267B29F400773DBD /* PostViewCell.swift in Sources */,
+				0CB458AA2680BE2400773DBD /* LoginTextField.swift in Sources */,
 				0CB45872267B1D8D00773DBD /* NotificationController.swift in Sources */,
 				0CB4587B267B357A00773DBD /* layoutUtil.swift in Sources */,
 				0CB45876267B1DBE00773DBD /* ProfileController.swift in Sources */,
