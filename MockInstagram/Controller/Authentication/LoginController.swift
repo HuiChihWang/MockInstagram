@@ -88,14 +88,28 @@ class LoginController: UIViewController {
         passwordInput.addTarget(self, action: #selector(validateInput), for: .editingChanged)
     }
     
-    //TODO: add editing observer
     @objc private func validateInput(_ sender: UITextField) {
+        if sender == emailInput {
+            logInVM.email = sender.text
+        }
+        
+        if sender == passwordInput {
+            logInVM.pwd = sender.text
+        }
+        
+        print("change email: \(String(describing: logInVM.email)) pwd: \(String(describing: logInVM.pwd))")
+        
+        logInButton.backgroundColor = logInVM.buttonBackground
+        logInButton.isEnabled = logInVM.isFormValid
+        logInButton.setTitleColor(logInVM.textColor, for: .normal)
     }
     
     private lazy var logInButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.backgroundColor = #colorLiteral(red: 0.8441327214, green: 0.2275986373, blue: 0.3763634861, alpha: 1)
+        button.backgroundColor = logInVM.buttonBackground
+        button.isEnabled = logInVM.isFormValid
+        button.setTitleColor(logInVM.textColor, for: .normal)
         
         button.setTitle("Log In", for: .normal)
         button.addTarget(self, action: #selector(logIn), for: .touchUpInside)
@@ -108,7 +122,6 @@ class LoginController: UIViewController {
     
     @objc private func logIn() {
         print("Log In")
-        navigationController?.pushViewController(RegistrationController(), animated: true)
     }
     
     @objc private func signUp() {

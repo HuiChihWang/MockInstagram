@@ -55,16 +55,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C38B6CAC-ECEC-4779-8EF9-9992D3B63D27"
+            uuid = "0B524A41-B98E-4040-8313-1227DDF73666"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MockInstagram/Controller/Authentication/LoginController.swift"
+            filePath = "AuthenticationViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "logoImageView"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "isFormValid"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>

@@ -9,6 +9,8 @@ import UIKit
 
 class RegistrationController: UIViewController {
     
+    private var registrationVM = RegistrationViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initViews()
@@ -55,13 +57,23 @@ class RegistrationController: UIViewController {
     }
     
     private func createFieldsStack() {
-        let stack = UIStackView(arrangedSubviews: [
-            emailInput,
-            passwordInput,
-            nameInput,
-            idInput,
-            signUpButton
-        ])
+        let stack = UIStackView(
+            arrangedSubviews: [
+                emailInput,
+                passwordInput,
+                nameInput,
+                idInput,
+                signUpButton
+            ]
+        )
+        
+        stack.arrangedSubviews.forEach { view in
+            guard let textField = view as? UITextField else {
+                return
+            }
+            
+            textField.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
+        }
         
         stack.axis = .vertical
         stack.spacing = 20
@@ -83,7 +95,10 @@ class RegistrationController: UIViewController {
     private lazy var signUpButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.backgroundColor = #colorLiteral(red: 0.8441327214, green: 0.2275986373, blue: 0.3763634861, alpha: 1)
+        
+        button.backgroundColor = registrationVM.buttonBackground
+        button.setTitleColor(registrationVM.textColor, for: .normal)
+        button.isEnabled = registrationVM.isFormValid
         
         button.setTitle("Sign Up", for: .normal)
         button.addTarget(self, action: #selector(signUp), for: .touchUpInside)
@@ -93,7 +108,7 @@ class RegistrationController: UIViewController {
     private func createLoginText() {
         let customButton = TwoPartTextButton()
         customButton.setText(first: "Already have an account?", second: "Log in")
-
+        
         view.addSubview(customButton)
         customButton.centerX(inView: view)
         customButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 32)
@@ -101,6 +116,24 @@ class RegistrationController: UIViewController {
         
     }
     
+    @objc private func textDidChange(_ sender: UITextField) {
+        switch sender {
+        case emailInput:
+            registrationVM.email = emailInput.text
+        case passwordInput:
+            registrationVM.pwd = passwordInput.text
+        case nameInput:
+            registrationVM.name = nameInput.text
+        case idInput:
+            registrationVM.idName = idInput.text
+        default:
+            return
+        }
+        
+        signUpButton.backgroundColor = registrationVM.buttonBackground
+        signUpButton.setTitleColor(registrationVM.textColor, for: .normal)
+        signUpButton.isEnabled = registrationVM.isFormValid
+    }
     
     @objc private func signUp() {
         print("Sign Up")
