@@ -52,4 +52,5 @@ struct RegistrationViewModel {
     var textColor: UIColor {
         isFormValid ? .white : .gray
     }
+    
 }

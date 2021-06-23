@@ -40,15 +40,19 @@ class RegistrationController: UIViewController {
         let imageWidth = view.frame.width * 0.3
         photoImage.setDimensions(height: imageWidth, width: imageWidth)
         
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addTarget(self, action: #selector(selectPhoto))
+        photoImage.addGestureRecognizer(tapGesture)
         
     }
     
     private let photoImage: UIImageView = {
-        let imgView = UIImageView()
-        imgView.image = #imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysTemplate)
-        imgView.contentMode = .scaleAspectFit
-        imgView.tintColor = .white
-        return imgView
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysTemplate)
+        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .white
+        imageView.isUserInteractionEnabled = true
+        return imageView
     }()
     
     private func createGradientView() {
@@ -137,6 +141,11 @@ class RegistrationController: UIViewController {
     
     @objc private func signUp() {
         print("Sign Up")
+        
+        //TODO: ignore default add photo image
+        let user = AuthCredentials(email: emailInput.inputText, password: passwordInput.inputText, fullName: nameInput.inputText, userName: idInput.inputText, profileImage: photoImage.image)
+        
+        AuthService.register(with: user)
     }
     
     @objc private func logIn() {
@@ -144,4 +153,29 @@ class RegistrationController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @objc private func selectPhoto() {
+        print("select photo")
+        
+        let photoController = UIImagePickerController()
+        photoController.delegate = self
+        photoController.sourceType = .photoLibrary
+        photoController.allowsEditing = true
+        
+        present(photoController, animated: true, completion: nil)
+    }
+}
+
+extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        photoImage.image = info[.editedImage] as? UIImage
+        
+        photoImage.contentMode = .scaleAspectFill
+        photoImage.layer.cornerRadius = photoImage.frame.width / 2
+        photoImage.layer.borderColor = UIColor.white.cgColor
+        photoImage.layer.borderWidth = 3
+        photoImage.clipsToBounds = true
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
 }

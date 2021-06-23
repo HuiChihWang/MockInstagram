@@ -10,7 +10,11 @@ import UIKit
 class LoginTextField: UITextField {
     
     let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-
+    
+    var inputText: String {
+        text ?? ""
+    }
+    
     init(fieldName: String, isSecure: Bool = false) {
         super.init(frame: .zero)
         textColor = .white
