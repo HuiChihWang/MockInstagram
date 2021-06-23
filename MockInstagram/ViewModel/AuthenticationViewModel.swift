@@ -9,15 +9,10 @@ import Foundation
 import UIKit
 
 struct LogInViewModel {
-    var email: String?
-    var pwd: String?
+    var email: String = ""
+    var pwd: String = ""
     
     var isFormValid: Bool {
-        guard let email = email, let pwd = pwd
-        else {
-            return false
-        }
-        
         return !email.isEmpty && !pwd.isEmpty
     }
     
@@ -31,17 +26,13 @@ struct LogInViewModel {
 }
 
 struct RegistrationViewModel {
-    var email: String?
-    var pwd: String?
-    var name: String?
-    var idName: String?
+    var email: String = ""
+    var pwd: String = ""
+    var name: String = ""
+    var idName: String = ""
+    var profileImage: UIImage?
     
-    var isFormValid: Bool {
-        guard let email = email, let pwd = pwd, let name = name, let idName = idName
-        else {
-            return false
-        }
-        
+    var isFormValid: Bool {        
         return !email.isEmpty && !pwd.isEmpty && !idName.isEmpty && !name.isEmpty
     }
     

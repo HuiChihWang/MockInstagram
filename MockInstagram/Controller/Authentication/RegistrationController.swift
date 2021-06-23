@@ -123,13 +123,13 @@ class RegistrationController: UIViewController {
     @objc private func textDidChange(_ sender: UITextField) {
         switch sender {
         case emailInput:
-            registrationVM.email = emailInput.text
+            registrationVM.email = emailInput.inputText
         case passwordInput:
-            registrationVM.pwd = passwordInput.text
+            registrationVM.pwd = passwordInput.inputText
         case nameInput:
-            registrationVM.name = nameInput.text
+            registrationVM.name = nameInput.inputText
         case idInput:
-            registrationVM.idName = idInput.text
+            registrationVM.idName = idInput.inputText
         default:
             return
         }
@@ -142,10 +142,14 @@ class RegistrationController: UIViewController {
     @objc private func signUp() {
         print("Sign Up")
         
-        //TODO: ignore default add photo image
-        let user = AuthCredentials(email: emailInput.inputText, password: passwordInput.inputText, fullName: nameInput.inputText, userName: idInput.inputText, profileImage: photoImage.image)
+//        let user = AuthCredentials(email: registrationVM.email, password: registrationVM.pwd, fullName: registrationVM.name, userName: registrationVM.idName, profileImage: registrationVM.profileImage)
         
-        AuthService.register(with: user)
+//        AuthService.register(with: user) { error in
+//            if let error = error {
+//                print("Registration Fail for user: \(user.userName) \(error.localizedDescription)")
+//            }
+//            print("Registration \(user.userName) sucess!!")
+//        }
     }
     
     @objc private func logIn() {
@@ -168,13 +172,17 @@ class RegistrationController: UIViewController {
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        photoImage.image = info[.editedImage] as? UIImage
+        registrationVM.profileImage = info[.editedImage] as? UIImage
         
-        photoImage.contentMode = .scaleAspectFill
-        photoImage.layer.cornerRadius = photoImage.frame.width / 2
-        photoImage.layer.borderColor = UIColor.white.cgColor
-        photoImage.layer.borderWidth = 3
-        photoImage.clipsToBounds = true
+        if let image = registrationVM.profileImage {
+            photoImage.contentMode = .scaleAspectFill
+            photoImage.layer.cornerRadius = photoImage.frame.width / 2
+            photoImage.layer.borderColor = UIColor.white.cgColor
+            photoImage.layer.borderWidth = 3
+            photoImage.clipsToBounds = true
+            photoImage.image = image
+        }
+
         
         picker.dismiss(animated: true, completion: nil)
     }

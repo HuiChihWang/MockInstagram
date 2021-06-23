@@ -90,11 +90,11 @@ class LoginController: UIViewController {
     
     @objc private func validateInput(_ sender: UITextField) {
         if sender == emailInput {
-            logInVM.email = sender.text
+            logInVM.email = emailInput.inputText
         }
         
         if sender == passwordInput {
-            logInVM.pwd = sender.text
+            logInVM.pwd = passwordInput.inputText
         }
         
         print("change email: \(String(describing: logInVM.email)) pwd: \(String(describing: logInVM.pwd))")
