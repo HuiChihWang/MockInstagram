@@ -142,14 +142,16 @@ class RegistrationController: UIViewController {
     @objc private func signUp() {
         print("Sign Up")
         
-//        let user = AuthCredentials(email: registrationVM.email, password: registrationVM.pwd, fullName: registrationVM.name, userName: registrationVM.idName, profileImage: registrationVM.profileImage)
+        let user = AuthCredentials(email: registrationVM.email, password: registrationVM.pwd, fullName: registrationVM.name, userName: registrationVM.idName, profileImage: registrationVM.profileImage)
         
-//        AuthService.register(with: user) { error in
-//            if let error = error {
-//                print("Registration Fail for user: \(user.userName) \(error.localizedDescription)")
-//            }
-//            print("Registration \(user.userName) sucess!!")
-//        }
+        AuthService.register(with: user) { error in
+            if let error = error {
+                print("Registration Fail for user: \(user.userName) \(error.localizedDescription)")
+            }
+            print("Registration \(user.userName) sucess!!")
+            
+            //TODO: do segue to main view
+        }
     }
     
     @objc private func logIn() {
