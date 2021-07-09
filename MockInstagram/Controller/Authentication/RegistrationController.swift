@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RegistrationController: UIViewController {
     
@@ -22,6 +23,28 @@ class RegistrationController: UIViewController {
         createImageView()
         createLoginText()
     }
+    
+    private lazy var warningLabel: UILabel = {
+        let label = UILabel()
+        label.isHidden = false
+        label.textColor = .black
+        
+        view.addSubview(label)
+        label.centerX(inView: view, topAnchor: signUpButton.bottomAnchor, paddingTop: 20)
+        return label
+    }()
+    
+    private lazy var spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.color = .white
+        spinner.hidesWhenStopped = true
+        
+        view.addSubview(spinner)
+        spinner.center(inView: signUpButton)
+        let size = signUpButton.frame.height
+        spinner.setDimensions(height: size, width: size)
+        return spinner
+    }()
     
     private func createImageView() {
         view.addSubview(photoImage)
@@ -61,15 +84,9 @@ class RegistrationController: UIViewController {
     }
     
     private func createFieldsStack() {
-        let stack = UIStackView(
-            arrangedSubviews: [
-                emailInput,
-                passwordInput,
-                nameInput,
-                idInput,
-                signUpButton
-            ]
-        )
+        let fields = [ emailInput, passwordInput, nameInput, idInput]
+        fields.forEach {$0.delegate = self}
+        let stack = UIStackView(arrangedSubviews: fields + [signUpButton])
         
         stack.arrangedSubviews.forEach { view in
             guard let textField = view as? UITextField else {
@@ -140,17 +157,35 @@ class RegistrationController: UIViewController {
     }
     
     @objc private func signUp() {
-        print("Sign Up")
+        print("[DEBUG]: Registration Controller Sign Up")
+        spinner.startAnimating()
+        signUpButton.setTitle("", for: .normal)
         
         let user = AuthCredentials(email: registrationVM.email, password: registrationVM.pwd, fullName: registrationVM.name, userName: registrationVM.idName, profileImage: registrationVM.profileImage)
         
         AuthService.register(with: user) { error in
-            if let error = error {
-                print("Registration Fail for user: \(user.userName) \(error.localizedDescription)")
+            DispatchQueue.main.async {
+                self.spinner.stopAnimating()
+                self.signUpButton.setTitle("Sign Up", for: .normal)
+                
+                if let error = error {
+                    print("Registration Fail for user: \(user.userName) \(error.localizedDescription)")
+                    
+                    if let errCode = AuthErrorCode(rawValue: (error as NSError).code) {
+                        switch errCode {
+                        case .emailAlreadyInUse:
+                            self.warningLabel.text = "Email is already existed"
+                        default:
+                            self.warningLabel.text = "unknown error"
+                        }
+                    }
+                    
+                    
+                } else {
+                    print("Registration \(user.userName) sucess!!")
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
-            print("Registration \(user.userName) sucess!!")
-            
-            //TODO: do segue to main view
         }
     }
     
@@ -184,8 +219,15 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
             photoImage.clipsToBounds = true
             photoImage.image = image
         }
-
+        
         
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension RegistrationController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

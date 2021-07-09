@@ -27,6 +27,7 @@ class ImageUploader {
         ref.putData(imageData, metadata: nil) { metadata, error in
             if let error = error {
                 print("uploadI image image data fail: \(error.localizedDescription)")
+                completion(nil, error)
             }
             
             ref.downloadURL(completion: completion)

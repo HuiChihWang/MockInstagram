@@ -6,15 +6,28 @@
 //
 
 import UIKit
+import Firebase
+
 
 class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureControllers()
-        // Do any additional setup after loading the view.
+        checkIfUserLoggedIn()
         
     }
+    
+    func checkIfUserLoggedIn() {
+        if AuthService.currentUser == nil {
+            print("[DEBUG] No user: enter log in controller")
+            DispatchQueue.main.async {
+                let logInController = LoginController.createLogInController()
+                self.present(logInController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     
     private func configureControllers() {
         let feed = templateNavigationController(iconName: "home", rootViewController: FeedController())
@@ -40,16 +53,4 @@ class MainTabBarController: UITabBarController {
         
         return nav
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

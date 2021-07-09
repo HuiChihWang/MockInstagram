@@ -19,7 +19,6 @@ class LoginTextField: UITextField {
         super.init(frame: .zero)
         textColor = .white
         backgroundColor = UIColor(white: 1, alpha: 0.1)
-        keyboardType = .emailAddress
         keyboardAppearance = .dark
         
         attributedPlaceholder = NSAttributedString(
@@ -45,7 +44,4 @@ class LoginTextField: UITextField {
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return super.editingRect(forBounds: bounds).inset(by: padding)
     }
-    
-    
-    
 }
