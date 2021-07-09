@@ -36,7 +36,7 @@ class AuthService {
     
     static private func createAccount(user: AuthCredentials, completion: @escaping (String?, Error?) -> Void) {
                 
-        Auth.auth().createUser(withEmail:  "taya87136@gmail.com", password: "taya30621") { result, error in
+        Auth.auth().createUser(withEmail: user.email, password: user.password) { result, error in
             guard let uid = result?.user.uid else {
                 completion(nil, error)
                 return
