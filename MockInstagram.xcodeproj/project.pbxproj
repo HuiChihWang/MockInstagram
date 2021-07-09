@@ -27,7 +27,6 @@
 		0C4E39C32683854200BD9C65 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E39C22683854200BD9C65 /* AuthenticationViewModel.swift */; };
 		0CB4584D267B1A5D00773DBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4584C267B1A5D00773DBD /* AppDelegate.swift */; };
 		0CB4584F267B1A5D00773DBD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4584E267B1A5D00773DBD /* SceneDelegate.swift */; };
-		0CB45851267B1A5D00773DBD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB45850267B1A5D00773DBD /* ViewController.swift */; };
 		0CB45854267B1A5D00773DBD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CB45852267B1A5D00773DBD /* Main.storyboard */; };
 		0CB45856267B1A6300773DBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CB45855267B1A6300773DBD /* Assets.xcassets */; };
 		0CB45859267B1A6300773DBD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CB45857267B1A6300773DBD /* LaunchScreen.storyboard */; };
@@ -56,7 +55,6 @@
 		0CB45849267B1A5D00773DBD /* MockInstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MockInstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CB4584C267B1A5D00773DBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CB4584E267B1A5D00773DBD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0CB45850267B1A5D00773DBD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0CB45853267B1A5D00773DBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0CB45855267B1A6300773DBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0CB45858267B1A6300773DBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 				0CB45865267B1ABB00773DBD /* Utils */,
 				0CB4584C267B1A5D00773DBD /* AppDelegate.swift */,
 				0CB4584E267B1A5D00773DBD /* SceneDelegate.swift */,
-				0CB45850267B1A5D00773DBD /* ViewController.swift */,
 				0CB45852267B1A5D00773DBD /* Main.storyboard */,
 				0CB45855267B1A6300773DBD /* Assets.xcassets */,
 				0C4E39A32683708500BD9C65 /* GoogleService-Info.plist */,
@@ -295,7 +292,6 @@
 				0C4E39BD26837F6C00BD9C65 /* ImageUploader.swift in Sources */,
 				0C4E39BF268383A600BD9C65 /* AuthService.swift in Sources */,
 				0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */,
-				0CB45851267B1A5D00773DBD /* ViewController.swift in Sources */,
 				0C061EB526983DA300D23794 /* ProfileCell.swift in Sources */,
 				0CB45870267B1D7200773DBD /* SearchController.swift in Sources */,
 				0C4E39C12683853200BD9C65 /* LoginTextField.swift in Sources */,
