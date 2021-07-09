@@ -6,8 +6,15 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginController: UIViewController {
+    
+    static func createLogInController() -> UINavigationController {
+        let nav = UINavigationController(rootViewController: LoginController())
+        nav.modalPresentationStyle = .fullScreen
+        return nav
+    }
     
     private var logInVM = LogInViewModel()
     
@@ -57,6 +64,10 @@ class LoginController: UIViewController {
     }
     
     private func createLogInUI() {
+        emailInput.delegate = self
+        passwordInput.delegate = self
+        emailInput.keyboardType = .emailAddress
+        
         let logInStack = UIStackView(arrangedSubviews: [emailInput, passwordInput, logInButton])
         
         logInStack.spacing = 20
@@ -121,22 +132,34 @@ class LoginController: UIViewController {
     private let passwordInput = LoginTextField(fieldName: "Password", isSecure: true)
     
     @objc private func logIn() {
-        print("Log In")
+        print("[DEBUG]: LoginController Click Login Button")
+        AuthService.logIn(email: emailInput.inputText, password: passwordInput.inputText) { result, error in
+            if let error = error {
+                print("[DEBUG] LogInController: Sign In Fail: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let result = result else {
+                return
+            }
+            
+            print("[DEBUG] LogInController: sign in success with \(result.user)")
+            
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @objc private func signUp() {
-        print("Sign Up")
+        print("[DEBUG]: LogInController Click Sign Up Button")
         navigationController?.pushViewController(RegistrationController(), animated: true)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+}
+
+extension LoginController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

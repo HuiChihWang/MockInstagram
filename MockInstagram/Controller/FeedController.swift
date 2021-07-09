@@ -29,8 +29,18 @@ class FeedController: UICollectionViewController {
         collectionView.register(PostViewCell.self, forCellWithReuseIdentifier: "\(PostViewCell.self)")
         collectionView.backgroundColor = .clear
         view.backgroundColor = .white
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(logOut))
+    }
+    
+    @objc private func logOut() {
+        print("[DEBUG] Logout user: \(AuthService.currentUser?.displayName)")
+        AuthService.logOut()
+        let loginController = LoginController.createLogInController()
+        self.present(loginController, animated: true, completion: nil)
     }
 }
+
 
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
