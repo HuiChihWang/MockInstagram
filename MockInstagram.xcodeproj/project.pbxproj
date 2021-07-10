@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0C061EB526983DA300D23794 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C061EB426983DA300D23794 /* ProfileCell.swift */; };
 		0C061EB726983DAF00D23794 /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C061EB626983DAF00D23794 /* ProfileHeader.swift */; };
+		0C1BA73B26995DA900E1422B /* NumberLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA73A26995DA900E1422B /* NumberLabelView.swift */; };
+		0C1BA73D26996E9A00E1422B /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA73C26996E9A00E1422B /* UserService.swift */; };
+		0C1BA741269970B800E1422B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA740269970B800E1422B /* User.swift */; };
+		0C1BA7432699767100E1422B /* profileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA7422699767100E1422B /* profileView.swift */; };
 		0C4E399E2680C52200BD9C65 /* IGBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E399D2680C52200BD9C65 /* IGBackgroundView.swift */; };
 		0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */; };
 		0C4E39A42683708500BD9C65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C4E39A32683708500BD9C65 /* GoogleService-Info.plist */; };
@@ -45,6 +49,10 @@
 /* Begin PBXFileReference section */
 		0C061EB426983DA300D23794 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		0C061EB626983DAF00D23794 /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
+		0C1BA73A26995DA900E1422B /* NumberLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberLabelView.swift; sourceTree = SOURCE_ROOT; };
+		0C1BA73C26996E9A00E1422B /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		0C1BA740269970B800E1422B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = MockInstagram/View/User.swift; sourceTree = SOURCE_ROOT; };
+		0C1BA7422699767100E1422B /* profileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = profileView.swift; path = MockInstagram/Controller/profileView.swift; sourceTree = SOURCE_ROOT; };
 		0C4E399D2680C52200BD9C65 /* IGBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGBackgroundView.swift; sourceTree = "<group>"; };
 		0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TwoPartTextButton.swift; path = MockInstagram/Controller/Authentication/TwoPartTextButton.swift; sourceTree = SOURCE_ROOT; };
 		0C4E39A32683708500BD9C65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -140,6 +148,7 @@
 			children = (
 				0C4E39BC26837F6C00BD9C65 /* ImageUploader.swift */,
 				0C4E39BE268383A600BD9C65 /* AuthService.swift */,
+				0C1BA73C26996E9A00E1422B /* UserService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -169,6 +178,8 @@
 		0CB45869267B1AC800773DBD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0C1BA7422699767100E1422B /* profileView.swift */,
+				0C1BA73A26995DA900E1422B /* NumberLabelView.swift */,
 				0C4E39C02683853200BD9C65 /* LoginTextField.swift */,
 				0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */,
 				0CB45878267B29F400773DBD /* PostViewCell.swift */,
@@ -182,6 +193,7 @@
 		0CB4586A267B1ACB00773DBD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0C1BA740269970B800E1422B /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -290,7 +302,9 @@
 				0C4E399E2680C52200BD9C65 /* IGBackgroundView.swift in Sources */,
 				0CB4587E267CCBC300773DBD /* LoginController.swift in Sources */,
 				0C4E39BD26837F6C00BD9C65 /* ImageUploader.swift in Sources */,
+				0C1BA73D26996E9A00E1422B /* UserService.swift in Sources */,
 				0C4E39BF268383A600BD9C65 /* AuthService.swift in Sources */,
+				0C1BA7432699767100E1422B /* profileView.swift in Sources */,
 				0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */,
 				0C061EB526983DA300D23794 /* ProfileCell.swift in Sources */,
 				0CB45870267B1D7200773DBD /* SearchController.swift in Sources */,
@@ -301,9 +315,11 @@
 				0CB45872267B1D8D00773DBD /* NotificationController.swift in Sources */,
 				0CB4587B267B357A00773DBD /* layoutUtil.swift in Sources */,
 				0CB45876267B1DBE00773DBD /* ProfileController.swift in Sources */,
+				0C1BA73B26995DA900E1422B /* NumberLabelView.swift in Sources */,
 				0CB4586E267B1D4700773DBD /* FeedController.swift in Sources */,
 				0CB4586C267B1D1400773DBD /* MainTabBarController.swift in Sources */,
 				0CB4584F267B1A5D00773DBD /* SceneDelegate.swift in Sources */,
+				0C1BA741269970B800E1422B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -49,7 +49,7 @@ class AuthService {
                 "uid": uid,
             ]
 
-            Firestore.firestore().collection("users").addDocument(data: data) { error in
+            UserService.userCollections.document(uid).setData(data) { error in
                 completion(uid, error)
             }
         }
@@ -76,7 +76,7 @@ class AuthService {
                     return
                 }
                 
-                Firestore.firestore().collection("users").document(id).setData(
+                UserService.userCollections.document(id).setData(
                     ["imageUrl": imageUrl.absoluteString],
                     merge: true,
                     completion: completion
