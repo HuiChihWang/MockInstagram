@@ -8,8 +8,6 @@
 import UIKit
 import Firebase
 
-
-
 class MainTabBarController: UITabBarController {
     private var user: User?
     

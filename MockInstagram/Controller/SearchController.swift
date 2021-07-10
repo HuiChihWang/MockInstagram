@@ -7,23 +7,29 @@
 
 import UIKit
 
-class SearchController: UIViewController {
+class SearchController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = .orange
-        // Do any additional setup after loading the view.
+        
+        tableView.register(SearchResultTableCell.self, forCellReuseIdentifier: "\(SearchResultTableCell.self)")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
-    */
+}
 
+
+extension SearchController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        10
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(SearchResultTableCell.self)", for: indexPath)
+        
+        return cell
+    }
 }
