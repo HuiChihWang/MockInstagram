@@ -11,8 +11,7 @@ import UIKit
 struct LogInViewModel {
     var email: String = ""
     var pwd: String = ""
-    
-    //TODO: use better validation method
+
     var isFormValid: Bool {
         return !email.isEmpty && !pwd.isEmpty
     }

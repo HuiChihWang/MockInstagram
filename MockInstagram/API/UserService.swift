@@ -17,8 +17,6 @@ struct UserService {
         }
         
         userCollections.document(uid).getDocument { snapshot, error in
-            print("[DEBUG] UserService: fetchuser: \(snapshot?.data())")
-            
             guard let data = snapshot?.data() else {
                 completion(nil)
                 return

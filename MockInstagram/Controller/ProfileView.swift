@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class ProfileView: UIView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

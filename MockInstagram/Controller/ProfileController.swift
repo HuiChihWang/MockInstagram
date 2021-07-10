@@ -17,7 +17,13 @@ class ProfileController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var user: User?
+    var user: User? {
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +44,11 @@ class ProfileController: UICollectionViewController {
     private func fetchUser() {
         UserService.fetchUser { user in
             self.user = user
+            self.navigationItem.title = user?.userName
             self.collectionView.reloadData()
         }
     }
 }
-
 
 extension ProfileController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

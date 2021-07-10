@@ -12,7 +12,7 @@
 		0C1BA73B26995DA900E1422B /* NumberLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA73A26995DA900E1422B /* NumberLabelView.swift */; };
 		0C1BA73D26996E9A00E1422B /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA73C26996E9A00E1422B /* UserService.swift */; };
 		0C1BA741269970B800E1422B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA740269970B800E1422B /* User.swift */; };
-		0C1BA7432699767100E1422B /* profileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA7422699767100E1422B /* profileView.swift */; };
+		0C1BA7432699767100E1422B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BA7422699767100E1422B /* ProfileView.swift */; };
 		0C4E399E2680C52200BD9C65 /* IGBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E399D2680C52200BD9C65 /* IGBackgroundView.swift */; };
 		0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */; };
 		0C4E39A42683708500BD9C65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C4E39A32683708500BD9C65 /* GoogleService-Info.plist */; };
@@ -52,7 +52,7 @@
 		0C1BA73A26995DA900E1422B /* NumberLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberLabelView.swift; sourceTree = SOURCE_ROOT; };
 		0C1BA73C26996E9A00E1422B /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		0C1BA740269970B800E1422B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = MockInstagram/View/User.swift; sourceTree = SOURCE_ROOT; };
-		0C1BA7422699767100E1422B /* profileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = profileView.swift; path = MockInstagram/Controller/profileView.swift; sourceTree = SOURCE_ROOT; };
+		0C1BA7422699767100E1422B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = MockInstagram/Controller/ProfileView.swift; sourceTree = SOURCE_ROOT; };
 		0C4E399D2680C52200BD9C65 /* IGBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGBackgroundView.swift; sourceTree = "<group>"; };
 		0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TwoPartTextButton.swift; path = MockInstagram/Controller/Authentication/TwoPartTextButton.swift; sourceTree = SOURCE_ROOT; };
 		0C4E39A32683708500BD9C65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 		0CB45869267B1AC800773DBD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0C1BA7422699767100E1422B /* profileView.swift */,
+				0C1BA7422699767100E1422B /* ProfileView.swift */,
 				0C1BA73A26995DA900E1422B /* NumberLabelView.swift */,
 				0C4E39C02683853200BD9C65 /* LoginTextField.swift */,
 				0C4E399F2680E29600BD9C65 /* TwoPartTextButton.swift */,
@@ -304,7 +304,7 @@
 				0C4E39BD26837F6C00BD9C65 /* ImageUploader.swift in Sources */,
 				0C1BA73D26996E9A00E1422B /* UserService.swift in Sources */,
 				0C4E39BF268383A600BD9C65 /* AuthService.swift in Sources */,
-				0C1BA7432699767100E1422B /* profileView.swift in Sources */,
+				0C1BA7432699767100E1422B /* ProfileView.swift in Sources */,
 				0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */,
 				0C061EB526983DA300D23794 /* ProfileCell.swift in Sources */,
 				0CB45870267B1D7200773DBD /* SearchController.swift in Sources */,

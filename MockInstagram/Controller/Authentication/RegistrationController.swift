@@ -11,6 +11,7 @@ import Firebase
 class RegistrationController: UIViewController {
     
     private var registrationVM = RegistrationViewModel()
+    weak var delegate: AuthenticationDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -183,7 +184,7 @@ class RegistrationController: UIViewController {
                     
                 } else {
                     print("Registration \(user.userName) sucess!!")
-                    self.dismiss(animated: true, completion: nil)
+                    self.delegate?.didAuthenticationComplete()
                 }
             }
         }

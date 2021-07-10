@@ -8,7 +8,15 @@
 import UIKit
 
 class FeedController: UICollectionViewController {
-
+    weak var authDelegate: AuthenticationDelegate?
+    var user: User? {
+        didSet {
+            DispatchQueue.main.async {
+                self.navigationItem.title = self.user?.userName
+            }
+        }
+    }
+    
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -34,10 +42,7 @@ class FeedController: UICollectionViewController {
     }
     
     @objc private func logOut() {
-        print("[DEBUG] Logout user: \(AuthService.currentUser?.displayName)")
-        AuthService.logOut()
-        let loginController = LoginController.createLogInController()
-        self.present(loginController, animated: true, completion: nil)
+        authDelegate?.didLogout()
     }
 }
 

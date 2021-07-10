@@ -8,15 +8,22 @@
 import UIKit
 import Firebase
 
+protocol AuthenticationDelegate: AnyObject {
+    func didAuthenticationComplete()
+    func didLogout()
+}
+
 class LoginController: UIViewController {
-    
-    static func createLogInController() -> UINavigationController {
-        let nav = UINavigationController(rootViewController: LoginController())
+    static func createLogInController(delegate: AuthenticationDelegate? = nil) -> UINavigationController {
+        let loginController = LoginController()
+        loginController.delegate = delegate
+        let nav = UINavigationController(rootViewController: loginController)
         nav.modalPresentationStyle = .fullScreen
         return nav
     }
     
     private var logInVM = LogInViewModel()
+    private weak var delegate: AuthenticationDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,8 +115,6 @@ class LoginController: UIViewController {
             logInVM.pwd = passwordInput.inputText
         }
         
-        print("change email: \(String(describing: logInVM.email)) pwd: \(String(describing: logInVM.pwd))")
-        
         logInButton.backgroundColor = logInVM.buttonBackground
         logInButton.isEnabled = logInVM.isFormValid
         logInButton.setTitleColor(logInVM.textColor, for: .normal)
@@ -145,15 +150,15 @@ class LoginController: UIViewController {
             
             print("[DEBUG] LogInController: sign in success with \(result.user)")
             
-            DispatchQueue.main.async {
-                self.dismiss(animated: true, completion: nil)
-            }
+            self.delegate?.didAuthenticationComplete()
         }
     }
     
     @objc private func signUp() {
         print("[DEBUG]: LogInController Click Sign Up Button")
-        navigationController?.pushViewController(RegistrationController(), animated: true)
+        let registrationController = RegistrationController()
+        registrationController.delegate = delegate
+        navigationController?.pushViewController(registrationController, animated: true)
     }
 }
 
