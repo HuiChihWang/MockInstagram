@@ -9,8 +9,17 @@ import Foundation
 import UIKit
 
 class ProfileHeader: UICollectionReusableView {
+    private var viewModel = ProfileHeaderViewModel()
+    
+    private let profileView = ProfileNameView()
+    private lazy var editButton = viewModel.createButton()
+    private let postNumber = NumberLabelView(title: "Posts")
+    private let followerNumber = NumberLabelView(title: "Followers")
+    private let followingNumber = NumberLabelView(title: "Followings")
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        viewModel.delegate = self
         configureUI()
     }
     
@@ -18,31 +27,25 @@ class ProfileHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var user: User? {
-        didSet {
-            profileView.nameLabelText = user?.fullName
-            if let imageUrl = user?.imageUrl {
-                profileView.setImageURL(url: imageUrl)
-            }
-        }
+    func configureUser(user: User) {
+        viewModel.user = user
     }
-    
+
     private func configureUI() {
         addSubview(profileView)
         profileView.anchor(top: self.topAnchor, left: self.leftAnchor, paddingTop: 20, paddingLeft: 20, width: 100, height: 110)
         
-        
         createInfoLabels()
-        postNumber.text = "256"
-        followingNumber.text = "768"
-        followerNumber.text = "100"
-    
         createListButtons()
         
         addSubview(editButton)
         editButton.centerX(inView: self, topAnchor: profileView.bottomAnchor, paddingTop: 20)
         editButton.setDimensions(height: 30, width: frame.width * 0.95)
-        editButton.addTarget(self, action: #selector(edit), for: .touchUpInside)
+        
+        postNumber.text = viewModel.postNumber
+        followingNumber.text = viewModel.followingNumber
+        followerNumber.text = viewModel.followerNumber
+    
     }
     
     private func createListButtons() {
@@ -68,8 +71,8 @@ class ProfileHeader: UICollectionReusableView {
         buttonStack.centerX(inView: self)
         buttonStack.anchor(bottom: self.bottomAnchor)
         
-        buttonStack.layer.borderColor = UIColor.gray.cgColor
-        buttonStack.layer.borderWidth = 1
+        buttonStack.layer.borderColor = ProfileHeaderViewModel.buttonBorderColor.cgColor
+        buttonStack.layer.borderWidth = ProfileHeaderViewModel.buttonBorderWidth
     }
     
     private func createInfoLabels() {
@@ -82,30 +85,6 @@ class ProfileHeader: UICollectionReusableView {
         stack.anchor(top: self.topAnchor, left: profileView.rightAnchor, right: self.rightAnchor, paddingTop: 40, paddingLeft: 20, paddingRight: 20)
     }
     
-    private let postNumber = NumberLabelView(title: "Posts")
-    private let followerNumber = NumberLabelView(title: "Followers")
-    private let followingNumber = NumberLabelView(title: "Followings")
-    
-    private let profileView = ProfileNameView()
-    
-    private let editButton: UIButton = {
-        let button = UIButton()
-        
-        button.setTitle("Edit Profile", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.textAlignment = .center
-        
-        button.backgroundColor = .clear
-        button.layer.borderColor = UIColor.gray.cgColor
-        button.layer.borderWidth = 1
-        return button
-    }()
-    
-    @objc private func edit() {
-        print("[DEBUG] profile controller: edit button press")
-    }
-    
     @objc private func showGridPhotos() {
         print("[DEBUG] profile controller: show Grid Photos")
     }
@@ -116,5 +95,20 @@ class ProfileHeader: UICollectionReusableView {
     
     @objc private func showSavedPhotos() {
         print("[DEBUG] profile controller: show Saved Photos")
+    }
+}
+
+extension ProfileHeader: ProfileHeaderViewModelDelegate {
+    func didUserInfoUpdated(user: User) {
+        DispatchQueue.main.async {
+            self.postNumber.text = self.viewModel.postNumber
+            self.followingNumber.text = self.viewModel.followingNumber
+            self.followerNumber.text = self.viewModel.followerNumber
+            
+            self.profileView.nameLabelText = user.fullName
+            if let url = user.imageUrl {
+                self.profileView.setImageURL(url: url)
+            }
+        }
     }
 }

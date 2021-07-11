@@ -8,8 +8,15 @@
 import UIKit
 
 class ProfileController: UICollectionViewController {
+    
+    private var viewModel = ProfileViewModel()
+    
     init() {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = viewModel.photoSpacing.horizontal
+        layout.minimumLineSpacing = viewModel.photoSpacing.vertical
+        
         super.init(collectionViewLayout: layout)
     }
     
@@ -28,16 +35,12 @@ class ProfileController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let layout = collectionViewLayout as! UICollectionViewFlowLayout
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 1
         
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "\(ProfileCell.self)")
         
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(ProfileHeader.self)")
-        collectionView.backgroundColor = .white
+        
+        collectionView.backgroundColor = viewModel.backgroundColor
     }
 }
 
@@ -51,12 +54,15 @@ extension ProfileController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
         guard let view  = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "\(ProfileHeader.self)", for: indexPath) as? ProfileHeader else {
             return UICollectionReusableView()
         }
+        guard let user = user else {
+            return UICollectionReusableView()
+        }
         
-        view.user = user
-
+        view.configureUser(user: user)
         return view
     }
     
@@ -69,24 +75,13 @@ extension ProfileController {
 
 extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            return .zero
-        }
-        
-        let horizontalSpacing = layout.minimumInteritemSpacing
-        let numberPerRow = 3
-        let width = collectionView.frame.width
-        let itemSize = (width - horizontalSpacing * CGFloat(numberPerRow - 1)) / CGFloat(numberPerRow)
-        
+        let itemSize = viewModel.getPhotoSize(gridWidth: collectionView.frame.width)
         return CGSize(width: itemSize, height: itemSize)
     }
         
 func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let width = collectionView.frame.width
-        return CGSize(width: width, height: 240)
+    return CGSize(width: width, height: viewModel.headerHeight)
     }
-
-
 }
 
