@@ -31,7 +31,10 @@ class SearchResultTableCell: UITableViewCell {
     
     private func configureUI() {
         contentView.addSubview(profileImageview)
-        profileImageview.anchor(top: contentView.topAnchor, left:contentView.leftAnchor, bottom: contentView.bottomAnchor, paddingTop: 12, paddingLeft: 30, paddingBottom: 12)
+        let imageSize: CGFloat = 60
+        profileImageview.setDimensions(height: imageSize, width: imageSize)
+        profileImageview.layer.cornerRadius = imageSize / 2
+        profileImageview.centerY(inView: contentView, leftAnchor: contentView.leftAnchor,  paddingLeft: 30)
         
         let labelStack = UIStackView(arrangedSubviews: [userNameLabel, fullNameLabel])
         labelStack.axis = .vertical
@@ -44,9 +47,6 @@ class SearchResultTableCell: UITableViewCell {
     
     private let profileImageview: UIImageView = {
        let imageView = UIImageView()
-        let imageSize: CGFloat = 65
-        imageView.setDimensions(height: imageSize, width: imageSize)
-        imageView.layer.cornerRadius = imageSize / 2
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true

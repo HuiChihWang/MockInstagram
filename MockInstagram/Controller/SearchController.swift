@@ -24,6 +24,8 @@ class SearchController: UITableViewController {
         searchController.isActive && !searchController.searchBar.text!.isEmpty
     }
     
+    private var isFetching = true
+    
     private let searchController: UISearchController = {
        let searchController = UISearchController(searchResultsController: nil)
         searchController.obscuresBackgroundDuringPresentation = false
@@ -37,9 +39,10 @@ class SearchController: UITableViewController {
         
         tableView.register(SearchResultTableCell.self, forCellReuseIdentifier: "\(SearchResultTableCell.self)")
         tableView.register(NothingFoundCell.self, forCellReuseIdentifier: "\(NothingFoundCell.self)")
+        tableView.register(FetchingCell.self, forCellReuseIdentifier: "\(FetchingCell.self)")
         
-        // TODO: Get dig into search controller
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchResultsUpdater = self
         definesPresentationContext = true
         
@@ -47,8 +50,10 @@ class SearchController: UITableViewController {
     }
     
     private func fetchAllUsers() {
+        isFetching = true
         UserService.fetchAllUsers { users in
             self.allUsers = users
+            self.isFetching = false
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -59,31 +64,38 @@ class SearchController: UITableViewController {
 
 extension SearchController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        isNoResultDisplayed ? 1 : displayUsers.count
-        allUsers.count
+        if isFetching || isNoResultDisplayed {
+            return 1
+        }
+        
+        return displayUsers.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        let cell: UITableViewCell!
-//        
-//        if isNoResultDisplayed {
-//            cell = tableView.dequeueReusableCell(withIdentifier: "\(NothingFoundCell.self)", for: indexPath)
-//        } else {
-//            cell = tableView.dequeueReusableCell(withIdentifier: "\(SearchResultTableCell.self)", for: indexPath)
-//            (cell as? SearchResultTableCell)?.user = displayUsers[indexPath.row]
-//        }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "\(SearchResultTableCell.self)", for: indexPath)
-        (cell as? SearchResultTableCell)?.user = displayUsers[indexPath.row]
+        let cell: UITableViewCell!
+
+        if isFetching {
+            cell = tableView.dequeueReusableCell(withIdentifier: "\(FetchingCell.self)", for: indexPath)
+        }
+        else if isNoResultDisplayed {
+            cell = tableView.dequeueReusableCell(withIdentifier: "\(NothingFoundCell.self)", for: indexPath)
+        }
+        else {
+            cell = tableView.dequeueReusableCell(withIdentifier: "\(SearchResultTableCell.self)", for: indexPath)
+            (cell as? SearchResultTableCell)?.user = displayUsers[indexPath.row]
+        }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        70
     }
 }
 
 extension SearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        let query = searchController.searchBar.text ?? ""
+        let query = searchController.searchBar.text?.lowercased() ?? ""
         print("[DEBUG] Search Updater: updating \(query)")
 
         filteredUsers = allUsers.filter({ user in

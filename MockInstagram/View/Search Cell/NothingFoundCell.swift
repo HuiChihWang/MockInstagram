@@ -12,6 +12,7 @@ class NothingFoundCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(nothingLabel)
+        nothingLabel.setHeight(70)
         nothingLabel.center(inView: contentView)
     }
     
