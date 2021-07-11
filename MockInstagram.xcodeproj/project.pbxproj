@@ -30,6 +30,7 @@
 		0C4E39C12683853200BD9C65 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E39C02683853200BD9C65 /* LoginTextField.swift */; };
 		0C4E39C32683854200BD9C65 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E39C22683854200BD9C65 /* AuthenticationViewModel.swift */; };
 		0C4E83BD2699EA9B007FF76B /* SearchResultTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E83BC2699EA9B007FF76B /* SearchResultTableCell.swift */; };
+		0C4E83C0269ACE9B007FF76B /* NothingFoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4E83BF269ACE9B007FF76B /* NothingFoundCell.swift */; };
 		0CB4584D267B1A5D00773DBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4584C267B1A5D00773DBD /* AppDelegate.swift */; };
 		0CB4584F267B1A5D00773DBD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4584E267B1A5D00773DBD /* SceneDelegate.swift */; };
 		0CB45854267B1A5D00773DBD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CB45852267B1A5D00773DBD /* Main.storyboard */; };
@@ -61,7 +62,8 @@
 		0C4E39BE268383A600BD9C65 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		0C4E39C02683853200BD9C65 /* LoginTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		0C4E39C22683854200BD9C65 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
-		0C4E83BC2699EA9B007FF76B /* SearchResultTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchResultTableCell.swift; path = MockInstagram/Controller/SearchResultTableCell.swift; sourceTree = SOURCE_ROOT; };
+		0C4E83BC2699EA9B007FF76B /* SearchResultTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchResultTableCell.swift; path = "MockInstagram/View/Search Cell/SearchResultTableCell.swift"; sourceTree = SOURCE_ROOT; };
+		0C4E83BF269ACE9B007FF76B /* NothingFoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingFoundCell.swift; sourceTree = "<group>"; };
 		0CB45849267B1A5D00773DBD /* MockInstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MockInstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CB4584C267B1A5D00773DBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CB4584E267B1A5D00773DBD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C4E83BE269ACE62007FF76B /* Search Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0C4E83BC2699EA9B007FF76B /* SearchResultTableCell.swift */,
+				0C4E83BF269ACE9B007FF76B /* NothingFoundCell.swift */,
+			);
+			path = "Search Cell";
+			sourceTree = "<group>";
+		};
 		0CB45840267B1A5D00773DBD = {
 			isa = PBXGroup;
 			children = (
@@ -180,7 +191,7 @@
 		0CB45869267B1AC800773DBD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0C4E83BC2699EA9B007FF76B /* SearchResultTableCell.swift */,
+				0C4E83BE269ACE62007FF76B /* Search Cell */,
 				0C1BA7422699767100E1422B /* ProfileView.swift */,
 				0C1BA73A26995DA900E1422B /* NumberLabelView.swift */,
 				0C4E39C02683853200BD9C65 /* LoginTextField.swift */,
@@ -307,6 +318,7 @@
 				0C4E39BD26837F6C00BD9C65 /* ImageUploader.swift in Sources */,
 				0C1BA73D26996E9A00E1422B /* UserService.swift in Sources */,
 				0C4E39BF268383A600BD9C65 /* AuthService.swift in Sources */,
+				0C4E83C0269ACE9B007FF76B /* NothingFoundCell.swift in Sources */,
 				0C1BA7432699767100E1422B /* ProfileView.swift in Sources */,
 				0C4E39A02680E29600BD9C65 /* TwoPartTextButton.swift in Sources */,
 				0C061EB526983DA300D23794 /* ProfileCell.swift in Sources */,

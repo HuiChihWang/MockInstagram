@@ -30,7 +30,7 @@ class MainTabBarController: UITabBarController {
     }
     
     private func fetchUser() {
-        UserService.fetchUser { user in
+        UserService.fetchCurrentUser { user in
             self.user = user
             self.configureControllers()
         }

@@ -42,7 +42,7 @@ class ProfileController: UICollectionViewController {
     }
 
     private func fetchUser() {
-        UserService.fetchUser { user in
+        UserService.fetchCurrentUser { user in
             self.user = user
             self.navigationItem.title = user?.userName
             self.collectionView.reloadData()
