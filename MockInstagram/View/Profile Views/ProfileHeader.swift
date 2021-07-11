@@ -86,7 +86,7 @@ class ProfileHeader: UICollectionReusableView {
     private let followerNumber = NumberLabelView(title: "Followers")
     private let followingNumber = NumberLabelView(title: "Followings")
     
-    private let profileView = ProfileView()
+    private let profileView = ProfileNameView()
     
     private let editButton: UIButton = {
         let button = UIButton()

@@ -14,6 +14,8 @@ class NothingFoundCell: UITableViewCell {
         contentView.addSubview(nothingLabel)
         nothingLabel.setHeight(70)
         nothingLabel.center(inView: contentView)
+        
+        isUserInteractionEnabled = false
     }
     
     required init?(coder: NSCoder) {

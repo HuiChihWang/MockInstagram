@@ -7,8 +7,9 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
-class ProfileView: UIView {
+class ProfileNameView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -24,30 +25,8 @@ class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        dataTask?.cancel()
-    }
-    
-    private weak var dataTask: URLSessionDataTask?
-    
     func setImageURL(url: String) {
-        guard let imageURL = URL(string: url) else {
-            return
-        }
-        
-        dataTask?.cancel()
-        dataTask = URLSession.shared.dataTask(with: imageURL) { data, _, _ in
-            guard let data = data else {
-                return
-            }
-            
-            let image = UIImage(data: data)
-            DispatchQueue.main.async {
-                self.imageView.image = image
-            }
-        }
-        
-        dataTask?.resume()
+        imageView.sd_setImage(with: URL(string: url))
     }
     
     var nameLabelText: String? {
@@ -77,8 +56,4 @@ class ProfileView: UIView {
         imageView.layer.cornerRadius = imageSize / 2
         return imageView
     }()
-    
-    
-    
-    
 }

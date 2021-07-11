@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 
 class MainTabBarController: UITabBarController {
-    private var user: User?
+    private var currentUser: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class MainTabBarController: UITabBarController {
     
     private func fetchUser() {
         UserService.fetchCurrentUser { user in
-            self.user = user
+            self.currentUser = user
             self.configureControllers()
         }
     }
@@ -39,7 +39,7 @@ class MainTabBarController: UITabBarController {
     private func configureControllers() {
         let feedController = FeedController()
         feedController.authDelegate = self
-        feedController.user = user
+        feedController.user = currentUser
         let feed = templateNavigationController(iconName: "home", rootViewController: feedController)
         
         let search = templateNavigationController(iconName: "search", rootViewController: SearchController())
@@ -49,7 +49,7 @@ class MainTabBarController: UITabBarController {
         let notifications = templateNavigationController(iconName: "like", rootViewController: NotificationController())
         
         let profileController = ProfileController()
-        profileController.user = user
+        profileController.user = currentUser
         let profile = templateNavigationController(iconName: "profile", rootViewController: profileController)
         
         viewControllers = [feed, search, imageSelector, notifications, profile]

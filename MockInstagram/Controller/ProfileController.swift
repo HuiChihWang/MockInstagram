@@ -20,6 +20,7 @@ class ProfileController: UICollectionViewController {
     var user: User? {
         didSet {
             DispatchQueue.main.async {
+                self.navigationItem.title = self.user?.userName
                 self.collectionView.reloadData()
             }
         }
@@ -37,16 +38,6 @@ class ProfileController: UICollectionViewController {
         
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(ProfileHeader.self)")
         collectionView.backgroundColor = .white
-        
-        fetchUser()
-    }
-
-    private func fetchUser() {
-        UserService.fetchCurrentUser { user in
-            self.user = user
-            self.navigationItem.title = user?.userName
-            self.collectionView.reloadData()
-        }
     }
 }
 
@@ -71,7 +62,7 @@ extension ProfileController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ProfileCell.self)", for: indexPath)
-        (cell as? ProfileCell)?.configure()
+        (cell as? ProfileCell)?.configure(url: "https://picsum.photos/200")
         return cell
     }
 }

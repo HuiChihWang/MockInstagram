@@ -18,6 +18,8 @@ class FetchingCell: UITableViewCell {
         spinner.hidesWhenStopped = true
         spinner.startAnimating()
         
+        isUserInteractionEnabled = false
+        
         spinner.center(inView: contentView)
     }
     

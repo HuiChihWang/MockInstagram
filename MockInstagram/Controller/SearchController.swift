@@ -85,18 +85,26 @@ extension SearchController {
             (cell as? SearchResultTableCell)?.user = displayUsers[indexPath.row]
         }
         
+        cell.selectionStyle = .none
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         70
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("[DEBUG] search controller : select on user \(displayUsers[indexPath.row].userName)")
+        let profileController = ProfileController()
+        profileController.user = displayUsers[indexPath.row]
+        navigationController?.pushViewController(profileController, animated: true)
+    }
 }
 
 extension SearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text?.lowercased() ?? ""
-        print("[DEBUG] Search Updater: updating \(query)")
+//        print("[DEBUG] Search Updater: updating \(query)")
 
         filteredUsers = allUsers.filter({ user in
             return user.userName.contains(query) || user.fullName.contains(query)
