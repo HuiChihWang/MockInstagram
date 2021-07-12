@@ -95,8 +95,7 @@ extension SearchController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("[DEBUG] search controller : select on user \(displayUsers[indexPath.row].userName)")
-        let profileController = ProfileController()
-        profileController.user = displayUsers[indexPath.row]
+        let profileController = ProfileController(user: displayUsers[indexPath.row])
         navigationController?.pushViewController(profileController, animated: true)
     }
 }

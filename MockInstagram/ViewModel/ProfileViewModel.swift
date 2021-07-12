@@ -10,13 +10,33 @@ import UIKit
 
 struct ProfileViewModel {
     
-    var user: User?
+    var user: User
+    let flowLayout = UICollectionViewFlowLayout()
     
-    var photoSpacing: (horizontal: CGFloat, vertical: CGFloat) {
+    init(user: User) {
+        self.user = user
+        initCollectionViewLayout()
+    }
+    
+    func initCollectionViewCell(collectionView: UICollectionView) {
+        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "\(ProfileCell.self)")
+        
+        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(ProfileHeader.self)")
+        
+        collectionView.backgroundColor = backgroundColor
+    }
+    
+    private func initCollectionViewLayout() {
+        flowLayout.scrollDirection = .vertical
+        flowLayout.minimumInteritemSpacing = photoSpacing.horizontal
+        flowLayout.minimumLineSpacing = photoSpacing.vertical
+    }
+    
+    private var photoSpacing: (horizontal: CGFloat, vertical: CGFloat) {
         return (1, 1)
     }
     
-    var numberOfPhotosPerRow = 3
+    private var numberOfPhotosPerRow = 3
     
     var backgroundColor = UIColor.white
     
@@ -28,6 +48,4 @@ struct ProfileViewModel {
         
         return itemSize
     }
-    
-    
 }

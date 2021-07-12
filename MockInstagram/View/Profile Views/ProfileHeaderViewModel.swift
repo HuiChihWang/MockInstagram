@@ -14,15 +14,15 @@ protocol ProfileHeaderViewModelDelegate: AnyObject {
 
 
 class ProfileHeaderViewModel {
-    var user: User? {
+    static let buttonBorderColor = UIColor.gray
+    static let buttonBorderWidth: CGFloat = 1
+    
+    var user = User() {
         didSet {
-            guard let user = user else {
-                return
-            }
             delegate?.didUserInfoUpdated(user: user)
         }
     }
-    
+
     weak var delegate: ProfileHeaderViewModelDelegate?
     
     var postNumber: String {
@@ -37,38 +37,46 @@ class ProfileHeaderViewModel {
         "100"
     }
     
-    private var buttonType: ButtonType {
-        .editProfile
-    }
-    
-    static let buttonBorderColor = UIColor.gray
-    static let buttonBorderWidth: CGFloat = 1
-    
-    
-    func createButton() -> UIButton {
-        let button = UIButton()
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.textAlignment = .center
-        button.setTitle(buttonType.rawValue, for: .normal)
+    var buttonType: ButtonType {
+        if user.isCurrentUser {
+            return .editProfile
+        }
         
-        button.backgroundColor = .clear
-        button.layer.borderColor = ProfileHeaderViewModel.buttonBorderColor.cgColor
-        button.layer.borderWidth = ProfileHeaderViewModel.buttonBorderWidth
+        return user.isFollowed ? .following : .follow
+    }
+    
+    func pressProfileButton() {
+        print("[DEBUG] profile controller: profile button press")
         
-        button.addTarget(self, action: #selector(edit), for: .touchUpInside)
-        return button
+        if !user.isCurrentUser {
+            user.isFollowed.toggle()
+        }
     }
-    
-    @objc private func edit() {
-        print("[DEBUG] profile controller: edit button press")
-    }
-    
-    
 }
 
 enum ButtonType: String {
     case editProfile = "Edit Profile"
     case follow = "Follow"
     case following = "Following"
+    
+    var buttonBackGround: UIColor {
+        switch self {
+        case .follow:
+            return #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        default:
+            return .clear
+        }
+    }
+    
+    var buttonTextColor: UIColor {
+        switch self {
+        case .follow:
+            return .white
+        default:
+            return .label
+        }
+
+    }
+    
+    
 }

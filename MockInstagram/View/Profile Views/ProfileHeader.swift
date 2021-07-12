@@ -12,10 +12,22 @@ class ProfileHeader: UICollectionReusableView {
     private var viewModel = ProfileHeaderViewModel()
     
     private let profileView = ProfileNameView()
-    private lazy var editButton = viewModel.createButton()
+    
     private let postNumber = NumberLabelView(title: "Posts")
     private let followerNumber = NumberLabelView(title: "Followers")
     private let followingNumber = NumberLabelView(title: "Followings")
+    
+    private let profileButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        button.titleLabel?.textAlignment = .center
+        button.layer.borderColor = ProfileHeaderViewModel.buttonBorderColor.cgColor
+        button.layer.borderWidth = ProfileHeaderViewModel.buttonBorderWidth
+        button.layer.cornerRadius = 3
+        
+        button.addTarget(self, action: #selector(pressProfileButton), for: .touchUpInside)
+        return button
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,9 +50,9 @@ class ProfileHeader: UICollectionReusableView {
         createInfoLabels()
         createListButtons()
         
-        addSubview(editButton)
-        editButton.centerX(inView: self, topAnchor: profileView.bottomAnchor, paddingTop: 20)
-        editButton.setDimensions(height: 30, width: frame.width * 0.95)
+        addSubview(profileButton)
+        profileButton.centerX(inView: self, topAnchor: profileView.bottomAnchor, paddingTop: 20)
+        profileButton.setDimensions(height: 30, width: frame.width * 0.95)
         
         postNumber.text = viewModel.postNumber
         followingNumber.text = viewModel.followingNumber
@@ -85,6 +97,10 @@ class ProfileHeader: UICollectionReusableView {
         stack.anchor(top: self.topAnchor, left: profileView.rightAnchor, right: self.rightAnchor, paddingTop: 40, paddingLeft: 20, paddingRight: 20)
     }
     
+    @objc private func pressProfileButton() {
+        viewModel.pressProfileButton()
+    }
+    
     @objc private func showGridPhotos() {
         print("[DEBUG] profile controller: show Grid Photos")
     }
@@ -104,6 +120,10 @@ extension ProfileHeader: ProfileHeaderViewModelDelegate {
             self.postNumber.text = self.viewModel.postNumber
             self.followingNumber.text = self.viewModel.followingNumber
             self.followerNumber.text = self.viewModel.followerNumber
+            
+            self.profileButton.setTitle(self.viewModel.buttonType.rawValue, for: .normal)
+            self.profileButton.setTitleColor(self.viewModel.buttonType.buttonTextColor, for: .normal)
+            self.profileButton.backgroundColor = self.viewModel.buttonType.buttonBackGround
             
             self.profileView.nameLabelText = user.fullName
             if let url = user.imageUrl {

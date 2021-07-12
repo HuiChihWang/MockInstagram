@@ -13,7 +13,6 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureControllers()
         checkIfUserLoggedIn()
     }
     
@@ -37,6 +36,10 @@ class MainTabBarController: UITabBarController {
     }
     
     private func configureControllers() {
+        guard let user = currentUser else {
+            return
+        }
+        
         let feedController = FeedController()
         feedController.authDelegate = self
         feedController.user = currentUser
@@ -48,8 +51,7 @@ class MainTabBarController: UITabBarController {
         
         let notifications = templateNavigationController(iconName: "like", rootViewController: NotificationController())
         
-        let profileController = ProfileController()
-        profileController.user = currentUser
+        let profileController = ProfileController(user: user)
         let profile = templateNavigationController(iconName: "profile", rootViewController: profileController)
         
         viewControllers = [feed, search, imageSelector, notifications, profile]

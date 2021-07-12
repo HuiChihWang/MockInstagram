@@ -9,42 +9,27 @@ import UIKit
 
 class ProfileController: UICollectionViewController {
     
-    private var viewModel = ProfileViewModel()
+    private var viewModel: ProfileViewModel
     
-    init() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = viewModel.photoSpacing.horizontal
-        layout.minimumLineSpacing = viewModel.photoSpacing.vertical
+    init(user: User) {
+        viewModel = ProfileViewModel(user: user)
+        super.init(collectionViewLayout: viewModel.flowLayout)
         
-        super.init(collectionViewLayout: layout)
+        viewModel.initCollectionViewCell(collectionView: collectionView)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var user: User? {
-        didSet {
-            DispatchQueue.main.async {
-                self.navigationItem.title = self.user?.userName
-                self.collectionView.reloadData()
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "\(ProfileCell.self)")
-        
-        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(ProfileHeader.self)")
-        
-        collectionView.backgroundColor = viewModel.backgroundColor
+        navigationItem.title = viewModel.user.userName
     }
 }
 
 extension ProfileController {
+    //TODO : fake data source here
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }
@@ -58,11 +43,8 @@ extension ProfileController {
         guard let view  = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "\(ProfileHeader.self)", for: indexPath) as? ProfileHeader else {
             return UICollectionReusableView()
         }
-        guard let user = user else {
-            return UICollectionReusableView()
-        }
         
-        view.configureUser(user: user)
+        view.configureUser(user: viewModel.user)
         return view
     }
     
