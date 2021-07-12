@@ -7,12 +7,14 @@
 
 import UIKit
 import Firebase
+import YPImagePicker
 
 class MainTabBarController: UITabBarController {
     private var currentUser: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        delegate = self
         checkIfUserLoggedIn()
     }
     
@@ -47,7 +49,7 @@ class MainTabBarController: UITabBarController {
         
         let search = templateNavigationController(iconName: "search", rootViewController: SearchController())
         
-        let imageSelector = templateNavigationController(iconName: "plus", rootViewController: ImageSelectorController())
+        let imageSelector = templateNavigationController(iconName: "plus", rootViewController: UIViewController())
         
         let notifications = templateNavigationController(iconName: "like", rootViewController: NotificationController())
         
@@ -60,12 +62,33 @@ class MainTabBarController: UITabBarController {
     
     private func templateNavigationController(iconName: String, rootViewController: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
-        
         nav.tabBarItem.image = UIImage(named: "\(iconName)_unselected")
         nav.tabBarItem.selectedImage = UIImage(named: "\(iconName)_selected")
         nav.navigationBar.tintColor = .black
         
         return nav
+    }
+    
+    private func createImageSelector() -> UIViewController {
+        // TODO: Dig into configuration setting on github
+        var imagePickerConfig = YPImagePickerConfiguration()
+        imagePickerConfig.library.mediaType = .photo
+        imagePickerConfig.shouldSaveNewPicturesToAlbum = false
+        imagePickerConfig.startOnScreen = .library
+        imagePickerConfig.screens = [.library]
+        imagePickerConfig.hidesStatusBar = false
+        imagePickerConfig.hidesBottomBar = false
+        imagePickerConfig.library.maxNumberOfItems = 1
+        
+        let imageSelector = YPImagePicker(configuration: imagePickerConfig)
+        imageSelector.didFinishPicking { item, _ in
+            DispatchQueue.main.async {
+                print("[DEBUG] YPImagePicker: select photo \(item.singlePhoto?.image)")
+                imageSelector.dismiss(animated: true)
+            }
+        }
+        
+        return imageSelector
     }
 }
 
@@ -83,4 +106,24 @@ extension MainTabBarController: AuthenticationDelegate {
         AuthService.logOut()
         checkIfUserLoggedIn()
     }
+}
+
+extension MainTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard let controllerIndex = viewControllers?.firstIndex(of: viewController) else {
+            return false
+        }
+        
+        if controllerIndex == 2 {
+            print("[DEBUG] MainTabBar Controller: select image controller")
+            let imagePicker = createImageSelector()
+            imagePicker.modalPresentationStyle = .fullScreen
+            present(imagePicker, animated: true)
+            return false
+        }
+        
+        return true
+    }
+    
+    
 }

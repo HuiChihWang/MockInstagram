@@ -22,13 +22,13 @@ class DesciptionTextView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let divider: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.setHeight(1)
-        return view
-    }()
-    
+//    private let divider: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .gray
+//        view.setHeight(1)
+//        return view
+//    }()
+//
     private let wordNumberLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
@@ -39,14 +39,14 @@ class DesciptionTextView: UIView {
     
     private func configureUI() {
         addSubview(textFiled)
-        addSubview(divider)
+//        addSubview(divider)
         addSubview(wordNumberLabel)
         
         textFiled.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
-        divider.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 7, paddingBottom: 10, paddingRight: 7)
-        textFiled.anchor(bottom: divider.topAnchor, paddingBottom: 40)
+//        divider.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 7, paddingBottom: 10, paddingRight: 7)
+//        textFiled.anchor(bottom: divider.topAnchor, paddingBottom: 40)
         
-        wordNumberLabel.anchor(top: textFiled.bottomAnchor,  bottom: divider.topAnchor, right: rightAnchor, paddingTop: 5, paddingBottom: 3, paddingRight: 5)
+        wordNumberLabel.anchor(top: textFiled.bottomAnchor,  bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingBottom: 8, paddingRight: 8)
         textFiled.addTarget(self, action: #selector(didTextChanged), for: .editingChanged)
     }
     
