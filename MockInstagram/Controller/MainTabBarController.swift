@@ -49,7 +49,8 @@ class MainTabBarController: UITabBarController {
         
         let search = templateNavigationController(iconName: "search", rootViewController: SearchController())
         
-        let imageSelector = templateNavigationController(iconName: "plus", rootViewController: UIViewController())
+        // test usage
+        let imageSelector = templateNavigationController(iconName: "plus", rootViewController: UploadPostViewController())
         
         let notifications = templateNavigationController(iconName: "like", rootViewController: NotificationController())
         
@@ -114,13 +115,13 @@ extension MainTabBarController: UITabBarControllerDelegate {
             return false
         }
         
-        if controllerIndex == 2 {
-            print("[DEBUG] MainTabBar Controller: select image controller")
-            let imagePicker = createImageSelector()
-            imagePicker.modalPresentationStyle = .fullScreen
-            present(imagePicker, animated: true)
-            return false
-        }
+//        if controllerIndex == 2 {
+//            print("[DEBUG] MainTabBar Controller: select image controller")
+//            let imagePicker = createImageSelector()
+//            imagePicker.modalPresentationStyle = .fullScreen
+//            present(imagePicker, animated: true)
+//            return false
+//        }
         
         return true
     }
