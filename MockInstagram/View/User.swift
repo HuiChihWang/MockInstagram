@@ -28,6 +28,25 @@ struct User {
     var followers: [String] = []
     var posts: [String] = []
     
+    init() {
+    }
+    
+    init?(data: [String: Any]) {
+        guard let email = data["email"] as? String,
+              let fullName = data["fullName"] as? String,
+              let userName = data["userName"] as? String,
+              let uid = data["uid"] as? String
+        else {
+            return nil
+        }
+        
+        self.email = email
+        self.userName = userName
+        self.fullName = fullName
+        self.uid = uid
+        self.imageUrl = data["imageUrl"] as? String
+    }
+    
     mutating func followUser(user: User) {
         guard !user.isCurrentUser else {
             return

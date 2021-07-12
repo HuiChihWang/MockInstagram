@@ -21,18 +21,8 @@ struct UserService {
                 completion(nil)
                 return
             }
-            guard let email = data["email"] as? String,
-                  let fullName = data["fullName"] as? String,
-                  let userName = data["userName"] as? String,
-                  let uid = data["uid"] as? String
-            else {
-                completion(nil)
-                return
-            }
             
-            var user = User(email: email, fullName: fullName, userName: userName, uid: uid)
-            user.imageUrl = data["imageUrl"] as? String
-            
+            let user = User(data: data)
             completion(user)
         }
     }
@@ -49,18 +39,9 @@ struct UserService {
 
             query.documents.forEach { doc in
                 let data = doc.data()
-                
-                guard let email = data["email"] as? String,
-                      let fullName = data["fullName"] as? String,
-                      let userName = data["userName"] as? String,
-                      let uid = data["uid"] as? String
-                else {
-                    return
+                if let user = User(data: data) {
+                    users.append(user)
                 }
-                
-                let user = User(email: email, fullName: fullName, userName: userName, uid: uid, imageUrl: data["imageUrl"] as? String)
-                
-                users.append(user)
             }
             
             completion(users)
