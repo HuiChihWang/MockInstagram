@@ -35,10 +35,7 @@ struct PostService {
                 "owner": currentUser.uid
             ]
             
-//            postCollections.addDocument(data: data) { error in
-//                <#code#>
-//            }
-            
+            postCollections.addDocument(data: data, completion: completion)
         }
         
     }

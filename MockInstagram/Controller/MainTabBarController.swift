@@ -49,8 +49,7 @@ class MainTabBarController: UITabBarController {
         
         let search = templateNavigationController(iconName: "search", rootViewController: SearchController())
         
-        // test usage
-        let imageSelector = templateNavigationController(iconName: "plus", rootViewController: UploadPostViewController())
+        let imageSelector = templateNavigationController(iconName: "plus", rootViewController: UIViewController())
         
         let notifications = templateNavigationController(iconName: "like", rootViewController: NotificationController())
         
@@ -83,9 +82,21 @@ class MainTabBarController: UITabBarController {
         
         let imageSelector = YPImagePicker(configuration: imagePickerConfig)
         imageSelector.didFinishPicking { item, _ in
+            guard let image = item.singlePhoto?.image else {
+                print("[DEBUG] YPImagePicker: cancel select photo")
+                return
+            }
+            
             DispatchQueue.main.async {
-                print("[DEBUG] YPImagePicker: select photo \(item.singlePhoto?.image)")
-                imageSelector.dismiss(animated: true)
+                print("[DEBUG] YPImagePicker: select photo finished")
+                
+                imageSelector.dismiss(animated: true) {
+                    let uploaderController = UploadPostViewController()
+                    uploaderController.postImageView.image = image
+                    let nav = UINavigationController(rootViewController: uploaderController)
+                    nav.modalPresentationStyle = .fullScreen
+                    self.present(nav, animated: true)
+                }
             }
         }
         
@@ -115,13 +126,13 @@ extension MainTabBarController: UITabBarControllerDelegate {
             return false
         }
         
-//        if controllerIndex == 2 {
-//            print("[DEBUG] MainTabBar Controller: select image controller")
-//            let imagePicker = createImageSelector()
-//            imagePicker.modalPresentationStyle = .fullScreen
-//            present(imagePicker, animated: true)
-//            return false
-//        }
+        if controllerIndex == 2 {
+            print("[DEBUG] MainTabBar Controller: select image controller")
+            let imagePicker = createImageSelector()
+            imagePicker.modalPresentationStyle = .fullScreen
+            present(imagePicker, animated: true)
+            return false
+        }
         
         return true
     }

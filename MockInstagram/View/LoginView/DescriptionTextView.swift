@@ -8,12 +8,22 @@
 import Foundation
 import UIKit
 
+protocol DesciptionTextViewDelegate: AnyObject {
+    func didTextChanged(text: String)
+}
+
 class DesciptionTextView: UIView {
     private let textFiled = DesctiptionTextField()
     private let textLimit: Int
     
+    weak var delegate: DesciptionTextViewDelegate?
+    
+    var text: String {
+        return textFiled.text ?? ""
+    }
+    
     private var textLength: Int {
-        textFiled.text?.count ?? 0
+        text.count
     }
     
     private var textLabel: String {
@@ -55,6 +65,7 @@ class DesciptionTextView: UIView {
     
     @objc private func didTextChanged() {
         wordNumberLabel.text = textLabel
+        delegate?.didTextChanged(text: text)
     }
 }
 
