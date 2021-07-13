@@ -22,19 +22,19 @@ class ProfileHeaderViewModel {
             delegate?.didUserInfoUpdated(user: user)
         }
     }
-
+    
     weak var delegate: ProfileHeaderViewModelDelegate?
     
     var postNumber: String {
-        "256"
+        "\(user.posts.count)"
     }
     
     var followingNumber: String {
-        "768"
+        "\(user.followings.count)"
     }
     
     var followerNumber: String {
-        "100"
+        "\(user.followers.count)"
     }
     
     var buttonType: ButtonType {
@@ -42,14 +42,57 @@ class ProfileHeaderViewModel {
             return .editProfile
         }
         
-        return user.isFollowed ? .following : .follow
+        return user.isFollowedByCurrentUser ? .following : .follow
     }
     
     func pressProfileButton() {
         print("[DEBUG] profile controller: profile button press")
         
-        if !user.isCurrentUser {
-            user.isFollowed.toggle()
+        switch buttonType {
+        case .editProfile:
+            break
+        case .follow:
+            followUser()
+        case .following:
+            unFollowUser()
+        }
+    }
+    
+    private func followUser() {
+        UserService.followUser(user: user) { error in
+            if let error = error {
+                print("[DEBUG] Follow Error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let currentId = AuthService.currentUser?.uid else {
+                return
+            }
+            
+            self.user.followers.append(currentId)
+            
+            print("[DEBUG] Follow Sucess")
+            self.delegate?.didUserInfoUpdated(user: self.user)
+        }
+    }
+    
+    private func unFollowUser() {
+        UserService.unfollowUser(user: user) { error in
+            if let error = error {
+                print("[DEBUG] UnFollow Error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let currentId = AuthService.currentUser?.uid else {
+                return
+            }
+            
+            if let index = self.user.followers.firstIndex(of: currentId) {
+                self.user.followers.remove(at: index)
+            }
+            
+            print("[DEBUG] UnFollow Sucess")
+            self.delegate?.didUserInfoUpdated(user: self.user)
         }
     }
 }
@@ -75,7 +118,6 @@ enum ButtonType: String {
         default:
             return .label
         }
-
     }
     
     

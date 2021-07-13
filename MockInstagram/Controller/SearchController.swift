@@ -45,7 +45,9 @@ class SearchController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchResultsUpdater = self
         definesPresentationContext = true
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         fetchAllUsers()
     }
     

@@ -10,7 +10,7 @@ import UIKit
 
 struct ProfileViewModel {
     
-    var user: User
+    let user: User
     let flowLayout = UICollectionViewFlowLayout()
     
     init(user: User) {

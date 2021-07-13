@@ -57,6 +57,8 @@ class ProfileHeader: UICollectionReusableView {
         postNumber.text = viewModel.postNumber
         followingNumber.text = viewModel.followingNumber
         followerNumber.text = viewModel.followerNumber
+        
+        
     
     }
     

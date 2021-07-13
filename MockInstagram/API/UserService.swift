@@ -27,16 +27,56 @@ struct UserService {
         }
     }
     
+    static func followUser(user: User, completion: @escaping FirebaseCompletion) {
+        guard let currentUser = AuthService.currentUser,
+              user.uid != currentUser.uid else {
+            return
+        }
+        
+        userCollections.document(user.uid).updateData([
+            "followers": FieldValue.arrayUnion([currentUser.uid])
+        ]) { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            userCollections.document(currentUser.uid).updateData([
+                "followings": FieldValue.arrayUnion([user.uid])
+            ], completion: completion)
+        }
+    }
+    
+    static func unfollowUser(user: User, completion: @escaping FirebaseCompletion) {
+        guard let currentUser = AuthService.currentUser,
+              user.uid != currentUser.uid else {
+            return
+        }
+        
+        userCollections.document(user.uid).updateData([
+            "followers": FieldValue.arrayRemove([currentUser.uid])
+        ]) { error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            userCollections.document(currentUser.uid).updateData([
+                "followings": FieldValue.arrayRemove([user.uid])
+            ], completion: completion)
+        }
+    }
+    
     static func fetchAllUsers(completion: @escaping ([User]) -> Void) {
         userCollections.getDocuments { querySnapShot, error in
             var users = [User]()
-
+            
             guard  let query = querySnapShot else {
                 print("[DEBUG] fetch all users error")
                 completion(users)
                 return
             }
-
+            
             query.documents.forEach { doc in
                 let data = doc.data()
                 if let user = User(data: data) {
@@ -45,6 +85,25 @@ struct UserService {
             }
             
             completion(users)
+        }
+    }
+    
+    static func fetchUser(with id: String, completion: @escaping (User?) -> Void) {
+        userCollections.document(id).getDocument { querySnapShot, error in
+            
+            guard let data = querySnapShot?.data() else {
+                print("[DEBUG] fetch user: Error occur")
+                completion(nil)
+                return
+            }
+            
+            guard let user = User(data: data) else {
+                print("[DEBUG] fetch user: Create user fail")
+                completion(nil)
+                return
+            }
+            
+            completion(user)
         }
     }
 }
