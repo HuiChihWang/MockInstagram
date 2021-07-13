@@ -8,11 +8,11 @@
 import UIKit
 
 class ProfileController: UICollectionViewController {
+    private let viewModel: ProfileViewModel
     
-    private var viewModel: ProfileViewModel
-    
-    init(user: User) {
-        viewModel = ProfileViewModel(user: user)
+    init(userID: String) {
+        viewModel = ProfileViewModel(userId: userID)
+        
         super.init(collectionViewLayout: viewModel.flowLayout)
         viewModel.delegate = self
         viewModel.initCollectionViewCell(collectionView: collectionView)
@@ -24,12 +24,12 @@ class ProfileController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = viewModel.user.userName
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.reloadData()
+        viewModel.fetchPage()
     }
 }
 
@@ -79,6 +79,13 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
 extension ProfileController: ProfileViewModelDelegate {
     func didPostsUpdate() {
         DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func didUserUpdate() {
+        DispatchQueue.main.async {
+            self.navigationItem.title = self.viewModel.user.userName
             self.collectionView.reloadData()
         }
     }

@@ -10,16 +10,25 @@ import UIKit
 
 protocol ProfileViewModelDelegate: AnyObject {
     func didPostsUpdate()
+    func didUserUpdate()
 }
 
 class ProfileViewModel {
     
-    var user: User
+    let userId: String
+    
+    private(set) var user = User() {
+        didSet {
+            delegate?.didUserUpdate()
+        }
+    }
+    
     let flowLayout = UICollectionViewFlowLayout()
     weak var delegate: ProfileViewModelDelegate?
     
-    init(user: User) {
-        self.user = user
+    init(userId: String) {
+        self.userId = userId
+        fetchPage()
         initCollectionViewLayout()
     }
     
@@ -29,6 +38,14 @@ class ProfileViewModel {
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(ProfileHeader.self)")
         
         collectionView.backgroundColor = backgroundColor
+    }
+    
+    func fetchPage() {
+        UserService.fetchUser(with: userId) { user in
+            if let user = user {
+                self.user = user
+            }
+        }
     }
         
     private func initCollectionViewLayout() {

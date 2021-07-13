@@ -58,8 +58,6 @@ class ProfileHeader: UICollectionReusableView {
         followingNumber.text = viewModel.followingNumber
         followerNumber.text = viewModel.followerNumber
         
-        
-    
     }
     
     private func createListButtons() {

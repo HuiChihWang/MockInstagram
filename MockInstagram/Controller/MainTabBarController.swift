@@ -53,7 +53,7 @@ class MainTabBarController: UITabBarController {
         
         let notifications = templateNavigationController(iconName: "like", rootViewController: NotificationController())
         
-        let profileController = ProfileController(user: user)
+        let profileController = ProfileController(userID: user.uid)
         let profile = templateNavigationController(iconName: "profile", rootViewController: profileController)
         
         viewControllers = [feed, search, imageSelector, notifications, profile]
