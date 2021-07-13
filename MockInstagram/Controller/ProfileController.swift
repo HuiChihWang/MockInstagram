@@ -14,7 +14,7 @@ class ProfileController: UICollectionViewController {
     init(user: User) {
         viewModel = ProfileViewModel(user: user)
         super.init(collectionViewLayout: viewModel.flowLayout)
-        
+        viewModel.delegate = self
         viewModel.initCollectionViewCell(collectionView: collectionView)
     }
     
@@ -26,16 +26,16 @@ class ProfileController: UICollectionViewController {
         super.viewDidLoad()
         navigationItem.title = viewModel.user.userName
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
 }
 
 extension ProfileController {
-    //TODO : fake data source here
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
-    }
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        18
+        viewModel.user.posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -50,7 +50,16 @@ extension ProfileController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ProfileCell.self)", for: indexPath)
-        (cell as? ProfileCell)?.configure(url: "https://picsum.photos/200")
+        
+        let postId = viewModel.user.posts[indexPath.item]
+        
+        PostService.fetchPost(by: postId) { post in
+            guard let postUrl = post?.photoUrl else {
+                return
+            }
+            (cell as? ProfileCell)?.configure(url: postUrl)
+        }
+        
         return cell
     }
 }
@@ -60,10 +69,18 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
         let itemSize = viewModel.getPhotoSize(gridWidth: collectionView.frame.width)
         return CGSize(width: itemSize, height: itemSize)
     }
-        
-func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let width = collectionView.frame.width
-    return CGSize(width: width, height: viewModel.headerHeight)
+        return CGSize(width: width, height: viewModel.headerHeight)
+    }
+}
+
+extension ProfileController: ProfileViewModelDelegate {
+    func didPostsUpdate() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }
 

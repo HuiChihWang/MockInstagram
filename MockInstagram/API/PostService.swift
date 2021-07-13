@@ -31,12 +31,66 @@ struct PostService {
                 "photoUrl": photoUrl.absoluteString,
                 "description": description,
                 "date": Timestamp(date: Date()),
-                "likes": 0,
                 "owner": currentUser.uid
             ]
             
-            postCollections.addDocument(data: data, completion: completion)
+            var postRef: DocumentReference?
+            postRef = postCollections.addDocument(data: data) { error in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+
+                let userData = ["posts": FieldValue.arrayUnion([postRef!.documentID])]
+
+                UserService.userCollections.document(currentUser.uid).updateData(userData, completion: completion)
+            }
         }
-        
     }
+    
+    static func fetchAllPost(completion: @escaping ([Post]) -> Void) {
+        postCollections.getDocuments { querySnapShot, error in
+            var  posts = [Post]()
+            guard  let query = querySnapShot else {
+                print("[DEBUG] fetch all users error")
+                completion(posts)
+                return
+            }
+            
+            query.documents.forEach { doc in
+                let data = doc.data()
+                if let post = Post(data: data) {
+                    posts.append(post)
+                }
+            }
+            
+            completion(posts)
+        }
+    }
+    
+    
+    //TODO: think how to use diapatch queue to execute 10 asynchronous requests
+    static func fetchPosts(of userId: String, completion: @escaping ([Post]) -> Void) {
+        fetchAllPost { allPosts in
+            let posts = allPosts.filter { post in
+                return post.ownerUid == userId
+            }
+            completion(posts)
+        }
+    }
+    
+    static func fetchPost(by pid: String, completion: @escaping (Post?) -> Void) {
+        postCollections.document(pid).getDocument { query, error in
+            guard let data = query?.data(),
+                  let post = Post(data: data)
+            else {
+                completion(nil)
+                return
+            }
+            
+            completion(post)
+        }
+    }
+    
+    
 }

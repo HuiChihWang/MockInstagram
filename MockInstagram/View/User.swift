@@ -26,10 +26,9 @@ struct User {
         return followers.contains(currentId)
     }
     
-    var followings: [String] = []
-    var followers: [String] = []
-    var posts: [String] = []
-    
+    var followings = [String]()
+    var followers = [String]()
+    var posts = [String]()
     
     init() {
     }

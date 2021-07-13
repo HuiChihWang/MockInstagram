@@ -8,10 +8,15 @@
 import Foundation
 import UIKit
 
-struct ProfileViewModel {
+protocol ProfileViewModelDelegate: AnyObject {
+    func didPostsUpdate()
+}
+
+class ProfileViewModel {
     
-    let user: User
+    var user: User
     let flowLayout = UICollectionViewFlowLayout()
+    weak var delegate: ProfileViewModelDelegate?
     
     init(user: User) {
         self.user = user
@@ -25,7 +30,7 @@ struct ProfileViewModel {
         
         collectionView.backgroundColor = backgroundColor
     }
-    
+        
     private func initCollectionViewLayout() {
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumInteritemSpacing = photoSpacing.horizontal
