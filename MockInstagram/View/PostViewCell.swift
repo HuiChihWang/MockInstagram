@@ -6,12 +6,18 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PostViewCell: UICollectionViewCell {
     
+    var post: Post? {
+        didSet {
+            configure()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.layer.borderWidth = 2
         createStackToHandleCommentRegion()
         createSaveButton()
         createMoreButton()
@@ -21,11 +27,23 @@ class PostViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
-        accountImageView.image = #imageLiteral(resourceName: "venom-7")
-        accountName.setTitle("hui_chih", for: .normal)
-        likesNumber.text = "10 likes"
-        postImageView.image = #imageLiteral(resourceName: "venom-7")
+    private func configure() {
+        guard let post = post else {
+            return
+        }
+        
+        likesNumber.text = "\(post.likes.count) likes"
+        postImageView.sd_setImage(with: URL(string: post.photoUrl))
+        
+        UserService.fetchUser(with: post.ownerUid) { user in
+            guard let user = user else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.accountImageView.sd_setImage(with: URL(string: user.imageUrl ?? ""))
+                self.accountName.setTitle(user.userName, for: .normal)
+            }
+        }
     }
     
     private func createStackToHandleCommentRegion() {

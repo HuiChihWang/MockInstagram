@@ -24,11 +24,21 @@ class ProfileController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureReshshController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.fetchPage()
+    }
+    
+    private func configureReshshController() {
+        let refreshController = UIRefreshControl()
+        refreshController.addTarget(self, action: #selector(refreshPage), for: .valueChanged)
+        collectionView.refreshControl = refreshController
+    }
+    
+    @objc private func refreshPage() {
         viewModel.fetchPage()
     }
 }
@@ -86,6 +96,7 @@ extension ProfileController: ProfileViewModelDelegate {
     func didUserUpdate() {
         DispatchQueue.main.async {
             self.navigationItem.title = self.viewModel.user.userName
+            self.collectionView.refreshControl?.endRefreshing()
             self.collectionView.reloadData()
         }
     }

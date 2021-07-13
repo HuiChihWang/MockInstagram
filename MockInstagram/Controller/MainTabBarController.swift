@@ -15,23 +15,24 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        checkIfUserLoggedIn()
+        checkIsUserLogin()
     }
     
-    private func checkIfUserLoggedIn() {
-        if AuthService.currentUser == nil {
-            print("[DEBUG] No user: enter log in controller")
-            DispatchQueue.main.async {
-                let logInController = LoginController.createLogInController(delegate: self)
-                self.present(logInController, animated: true, completion: nil)
-            }
-        } else {
-            fetchUser()
-        }
-    }
-    
-    private func fetchUser() {
+    private func checkIsUserLogin() {
         UserService.fetchCurrentUser { user in
+            guard let user = user else {
+                if AuthService.currentUser?.uid != nil {
+                    AuthService.logOut()
+                }
+                
+                print("[DEBUG] No user: enter log in controller")
+                DispatchQueue.main.async {
+                    let logInController = LoginController.createLogInController(delegate: self)
+                    self.present(logInController, animated: true, completion: nil)
+                }
+                return
+            }
+            
             self.currentUser = user
             self.configureControllers()
         }
@@ -44,7 +45,6 @@ class MainTabBarController: UITabBarController {
         
         let feedController = FeedController()
         feedController.authDelegate = self
-        feedController.user = currentUser
         let feed = templateNavigationController(iconName: "home", rootViewController: feedController)
         
         let search = templateNavigationController(iconName: "search", rootViewController: SearchController())
@@ -107,16 +107,16 @@ class MainTabBarController: UITabBarController {
 extension MainTabBarController: AuthenticationDelegate {
     func didAuthenticationComplete() {
         print("[DEBUG] AuthenticationDelegate from MainTabBar: didAuthenticationComplete")
-        self.fetchUser()
         DispatchQueue.main.async {
             self.dismiss(animated: true, completion: nil)
         }
+        checkIsUserLogin()
     }
     
     func didLogout() {
         print("[DEBUG] Logout user: \(AuthService.currentUser?.displayName ?? "")")
         AuthService.logOut()
-        checkIfUserLoggedIn()
+        checkIsUserLogin()
     }
 }
 

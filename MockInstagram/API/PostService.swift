@@ -12,6 +12,8 @@ import Firebase
 typealias FirebaseCompletion = (Error?) -> Void
 
 struct PostService {
+    static let postImageFolder = "post_images"
+    
     static let postCollections = Firestore.firestore().collection("posts")
     
     static func uploadPost(description: String, photo: UIImage, completion: @escaping FirebaseCompletion) {
@@ -21,7 +23,7 @@ struct PostService {
             return
         }
         
-        ImageUploader.uploadImage(image: photo) { url, error in
+        ImageUploader.uploadImage(image: photo, destination: postImageFolder) { url, error in
             guard let photoUrl = url else {
                 completion(error)
                 return

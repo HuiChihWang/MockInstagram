@@ -13,6 +13,7 @@ struct UserService {
     
     static func fetchCurrentUser(completion: @escaping (User?) -> Void) {
         guard let uid = AuthService.currentUser?.uid else {
+            completion(nil)
             return
         }
         

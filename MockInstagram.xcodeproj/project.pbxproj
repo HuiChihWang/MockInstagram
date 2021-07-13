@@ -52,6 +52,7 @@
 		0CB4587B267B357A00773DBD /* layoutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587A267B357A00773DBD /* layoutUtil.swift */; };
 		0CB4587E267CCBC300773DBD /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587D267CCBC300773DBD /* LoginController.swift */; };
 		0CB45880267CCBDD00773DBD /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587F267CCBDD00773DBD /* RegistrationController.swift */; };
+		0CD73CFE269DA43100E1190F /* FeedControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD73CFD269DA43100E1190F /* FeedControllerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		0CB4587A267B357A00773DBD /* layoutUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layoutUtil.swift; sourceTree = "<group>"; };
 		0CB4587D267CCBC300773DBD /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		0CB4587F267CCBDD00773DBD /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		0CD73CFD269DA43100E1190F /* FeedControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedControllerViewModel.swift; path = MockInstagram/Controller/FeedControllerViewModel.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 		0CB45868267B1AC600773DBD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				0CD73CFD269DA43100E1190F /* FeedControllerViewModel.swift */,
 				0C4E83CB269B47D4007FF76B /* ProfileHeaderViewModel.swift */,
 				0C4E39C22683854200BD9C65 /* AuthenticationViewModel.swift */,
 				0C4E83C9269B331B007FF76B /* ProfileViewModel.swift */,
@@ -370,6 +373,7 @@
 				0CB45872267B1D8D00773DBD /* NotificationController.swift in Sources */,
 				0CB4587B267B357A00773DBD /* layoutUtil.swift in Sources */,
 				0CB45876267B1DBE00773DBD /* ProfileController.swift in Sources */,
+				0CD73CFE269DA43100E1190F /* FeedControllerViewModel.swift in Sources */,
 				0C1BA73B26995DA900E1422B /* NumberLabelView.swift in Sources */,
 				0CB4586E267B1D4700773DBD /* FeedController.swift in Sources */,
 				0CB4586C267B1D1400773DBD /* MainTabBarController.swift in Sources */,

@@ -18,6 +18,8 @@ struct AuthCredentials {
 }
 
 class AuthService {
+    static let profileImageFolder = "profile_images"
+    
     static var currentUser: Firebase.User? {
         return Auth.auth().currentUser
     }
@@ -70,7 +72,7 @@ class AuthService {
                 return
             }
         
-            ImageUploader.uploadImage(image: image) { url, error in
+            ImageUploader.uploadImage(image: image, destination: profileImageFolder) { url, error in
                 guard let imageUrl = url else {
                     completion(error)
                     return

@@ -8,19 +8,15 @@
 import UIKit
 
 class FeedController: UICollectionViewController {
+    private let viewModel = FeedControllerViewModel()
+    
     weak var authDelegate: AuthenticationDelegate?
-    var user: User? {
-        didSet {
-            DispatchQueue.main.async {
-                self.navigationItem.title = self.user?.userName
-            }
-        }
-    }
     
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         super.init(collectionViewLayout: layout)
+        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -30,8 +26,17 @@ class FeedController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureRefreshController()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchPage()
+    }
+    
+    @objc private func refreshPage() {
+        viewModel.fetchPage()
+    }
     
     private func configureUI() {
         collectionView.register(PostViewCell.self, forCellWithReuseIdentifier: "\(PostViewCell.self)")
@@ -39,6 +44,12 @@ class FeedController: UICollectionViewController {
         view.backgroundColor = .white
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(logOut))
+    }
+    
+    private func configureRefreshController() {
+        let controller = UIRefreshControl()
+        controller.addTarget(self, action: #selector(refreshPage), for: .valueChanged)
+        collectionView.refreshControl = controller
     }
     
     @objc private func logOut() {
@@ -49,14 +60,15 @@ class FeedController: UICollectionViewController {
 
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.posts.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(PostViewCell.self)", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(PostViewCell.self)", for: indexPath) as? PostViewCell
         
-        (cell as? PostViewCell)?.configure()
-        return cell
+        cell?.post = viewModel.posts[indexPath.item]
+        
+        return cell ?? UICollectionViewCell()
     }
 }
 
@@ -67,6 +79,16 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
+    }
+}
+
+extension FeedController: FeedControllerViewModelDelegate {
+    func didUpdatePosts() {
+        DispatchQueue.main.async {
+            self.navigationItem.title = self.viewModel.currentUser.userName
+            self.collectionView.reloadData()
+            self.collectionView.refreshControl?.endRefreshing()
+        }
     }
 }
 

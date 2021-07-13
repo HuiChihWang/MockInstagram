@@ -10,9 +10,7 @@ import UIKit
 import FirebaseStorage
 
 class ImageUploader {
-    private static let profileImageFolder = "profile_images/"
-    
-    static func uploadImage(image: UIImage, completion: @escaping (URL?, Error?) -> Void) {
+    static func uploadImage(image: UIImage, destination: String, completion: @escaping (URL?, Error?) -> Void) {
         
         guard let imageData = image.jpegData(compressionQuality: 0.75) else {
             return
@@ -22,7 +20,7 @@ class ImageUploader {
         
         let storageRef = Storage.storage().reference()
         
-        let ref = storageRef.child("\(profileImageFolder)\(fileName)")
+        let ref = storageRef.child("\(destination)/\(fileName)")
         
         ref.putData(imageData, metadata: nil) { metadata, error in
             if let error = error {
