@@ -17,6 +17,11 @@ class PostViewCellViewModel {
     weak var delegate: PostViewCellViewModelDelegate?
     private var post: Post
     
+    
+    var saveButtonImage: UIImage {
+        return #imageLiteral(resourceName: "ribbon")
+    }
+    
     var likeButtonImage: UIImage {
         return post.isLikedByCurrentUser ? #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysTemplate) : #imageLiteral(resourceName: "like_unselected")
     }
@@ -31,6 +36,7 @@ class PostViewCellViewModel {
     
     var dateLabel: String {
         let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM d, yyyy"
         return dateFormatter.string(from: post.date)
     }
     

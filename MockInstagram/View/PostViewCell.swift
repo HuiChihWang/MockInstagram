@@ -20,10 +20,7 @@ class PostViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
-        createStackToHandleCommentRegion()
-        createSaveButton()
-        createMoreButton()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -32,85 +29,76 @@ class PostViewCell: UICollectionViewCell {
     
     private func configurePost() {
         likesNumber.text = viewModel?.likeLabel
+        dateLabel.text = viewModel?.dateLabel
         postImageView.sd_setImage(with: URL(string: viewModel?.photoUrl ?? ""))
         likeButton.setImage(viewModel?.likeButtonImage, for: .normal)
+        saveButton.setImage(viewModel?.saveButtonImage, for: .normal)
     }
     
-    private func createStackToHandleCommentRegion() {
-        let buttonsStack = UIStackView()
+    private func configureUI() {
+        configureAccountView()
+        configureCommentRegion()
+        configureButtons()
+        configurePostImage()
+    }
+    
+    private func configurePostImage() {
+        contentView.addSubview(postImageView)
+        postImageView.anchor(top: accountImageView.bottomAnchor, left: contentView.leftAnchor, bottom: saveButton.topAnchor, right: contentView.rightAnchor, paddingTop: 10, paddingBottom: 10)
+    }
+    
+    private func configureAccountView() {
+        contentView.addSubview(accountImageView)
+        accountImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, paddingTop: 10, paddingLeft: 10)
+        
+        contentView.addSubview(accountName)
+        accountName.centerY(inView: accountImageView, leftAnchor: accountImageView.rightAnchor, paddingLeft: 15)
+        
+        contentView.addSubview(moreButton)
+        moreButton.centerY(inView: accountImageView)
+        moreButton.anchor(right: contentView.rightAnchor, paddingRight: 10)
+        
+        accountName.addTarget(self, action: #selector(didTapAccount), for: .touchUpInside)
+        moreButton.addTarget(self, action: #selector(showMoreAction), for: .touchUpInside)
+    }
+    
+    private func configureCommentRegion() {
+        contentView.addSubview(dateLabel)
+        dateLabel.anchor(left: contentView.leftAnchor, bottom: contentView.bottomAnchor, paddingLeft: 10)
+        
+        contentView.addSubview(likesNumber)
+        likesNumber.anchor(left: dateLabel.leftAnchor, bottom: dateLabel.topAnchor, paddingBottom: 10)
+    }
+    
+    private func configureButtons() {
+        let buttonsStack = UIStackView(arrangedSubviews: [likeButton, messageButton, shareButton])
         buttonsStack.axis = .horizontal
         buttonsStack.spacing = 15
-        let buttons = [likeButton, messageButton, shareButton]
-        
-        buttons.forEach { button in
-            button.isUserInteractionEnabled = true
-            button.contentMode = .scaleAspectFill
-            button.setDimensions(height: 25, width: 25)
-            buttonsStack.addArrangedSubview(button)
-            
-        }
         
         contentView.addSubview(buttonsStack)
         buttonsStack.anchor(left: likesNumber.leftAnchor, bottom: likesNumber.topAnchor, paddingBottom: 10)
         
-        likeButton.addTarget(self, action: #selector(likePhoto), for: .touchUpInside)
-    }
-    
-    private func createSaveButton() {
         contentView.addSubview(saveButton)
-        saveButton.anchor(bottom: likeButton.bottomAnchor, right: rightAnchor, paddingRight: 10)
+        saveButton.anchor(top: buttonsStack.topAnchor, right: moreButton.rightAnchor)
         
+        likeButton.addTarget(self, action: #selector(likePhoto), for: .touchUpInside)
+        messageButton.addTarget(self, action: #selector(leaveComment), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(sharePost), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(savePost), for: .touchUpInside)
     }
     
-    private func createMoreButton() {
-        contentView.addSubview(moreButton)
-        let size: CGFloat = 30
-        moreButton.setDimensions(height: size, width: size)
-        moreButton.centerY(inView: accountImageView, leftAnchor: leftAnchor, paddingLeft: frame.width - size - 15)
-        
-        
-    }
-    
-    private lazy var moreButton: UIButton = {
-        let moreButton = UIButton()
-        moreButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        moreButton.tintColor = .black
-        
-        moreButton.addTarget(self, action: #selector(showMoreAction), for: .touchUpInside)
-        return moreButton
-    }()
-    
-    private lazy var accountImageView: UIImageView = {
+    private let accountImageView: UIImageView = {
         let accountImageView = UIImageView()
-        accountImageView.contentMode = .scaleAspectFill
-        
-        contentView.addSubview(accountImageView)
-        
         let width: CGFloat = 50
-        accountImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 10, width: width, height: width)
-        
+        accountImageView.setDimensions(height: width, width: width)
         accountImageView.layer.cornerRadius = width / 2
+        accountImageView.contentMode = .scaleAspectFill
         accountImageView.clipsToBounds = true
-        
         return accountImageView
     }()
     
-    private lazy var postImageView: UIImageView = {
-        let postImageView = UIImageView()
-        
-        contentView.addSubview(postImageView)
-        postImageView.anchor(top: accountImageView.bottomAnchor, left: leftAnchor, bottom: saveButton.topAnchor, right: rightAnchor, paddingTop: 10, paddingBottom: 10)
-        
-        postImageView.isUserInteractionEnabled = true
-        postImageView.contentMode = .scaleAspectFill
-        
-        return postImageView
-    }()
-    
-    private lazy var accountName: UIButton = {
+    private let accountName: UIButton = {
         let nameButton = UIButton()
-        contentView.addSubview(nameButton)
-        nameButton.centerY(inView: accountImageView, leftAnchor: accountImageView.rightAnchor, paddingLeft: 15)
         nameButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         nameButton.setTitleColor(.black, for: .normal)
         
@@ -118,6 +106,12 @@ class PostViewCell: UICollectionViewCell {
         return nameButton
     }()
     
+    private let postImageView: UIImageView = {
+        let postImageView = UIImageView()
+        postImageView.isUserInteractionEnabled = true
+        postImageView.contentMode = .scaleAspectFill
+        return postImageView
+    }()
     
     private let likeButton: UIButton = {
         let likeButtonView = UIButton()
@@ -125,50 +119,48 @@ class PostViewCell: UICollectionViewCell {
         return likeButtonView
     }()
     
-    private lazy var messageButton: UIImageView = {
-        let msgButtonView = UIImageView()
-        msgButtonView.image = UIImage(named: "comment")
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(leaveComment))
-        msgButtonView.addGestureRecognizer(tapGesture)
-        
+    private let messageButton: UIButton = {
+        let msgButtonView = UIButton()
+        msgButtonView.setDimensions(height: 25, width: 25)
+        msgButtonView.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
         return msgButtonView
     }()
     
-    private lazy var shareButton: UIImageView = {
-        let shareButtonView = UIImageView()
-        shareButtonView.image = UIImage(named: "send2")
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(sharePost))
-        shareButtonView.addGestureRecognizer(tapGesture)
-        
+    private let shareButton: UIButton = {
+        let shareButtonView = UIButton()
+        shareButtonView.setImage(#imageLiteral(resourceName: "send2"), for: .normal)
+        shareButtonView.setDimensions(height: 25, width: 25)
         return shareButtonView
     }()
     
-    private lazy var saveButton: UIImageView = {
-        let saveButton = UIImageView()
-        saveButton.image = UIImage(named: "ribbon")
-        
-        saveButton.isUserInteractionEnabled = true
-        saveButton.contentMode = .scaleAspectFill
+    private let saveButton: UIButton = {
+        let saveButton = UIButton()
         saveButton.setDimensions(height: 25, width: 25)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(savePost))
-        
-        saveButton.addGestureRecognizer(tapGesture)
-        
         return saveButton
         
     }()
     
-    private lazy var likesNumber: UILabel = {
+    private let moreButton: UIButton = {
+        let moreButton = UIButton()
+        moreButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        moreButton.contentMode = .scaleAspectFill
+        moreButton.tintColor = .black
+        moreButton.setDimensions(height: 25, width: 25)
+        return moreButton
+    }()
+    
+    private let likesNumber: UILabel = {
         let likesLabel = UILabel()
         likesLabel.textColor = .black
-        
-        contentView.addSubview(likesLabel)
-        likesLabel.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 10, paddingBottom: 10)
-        
+        likesLabel.font = UIFont.systemFont(ofSize: 14)
         return likesLabel
+    }()
+    
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
     }()
     
     @objc private func didTapAccount() {

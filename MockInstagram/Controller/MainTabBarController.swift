@@ -84,6 +84,7 @@ class MainTabBarController: UITabBarController {
         imageSelector.didFinishPicking { item, _ in
             guard let image = item.singlePhoto?.image else {
                 print("[DEBUG] YPImagePicker: cancel select photo")
+                imageSelector.dismiss(animated: true)
                 return
             }
             
