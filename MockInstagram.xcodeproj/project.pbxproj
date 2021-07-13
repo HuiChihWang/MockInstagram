@@ -53,6 +53,7 @@
 		0CB4587E267CCBC300773DBD /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587D267CCBC300773DBD /* LoginController.swift */; };
 		0CB45880267CCBDD00773DBD /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB4587F267CCBDD00773DBD /* RegistrationController.swift */; };
 		0CD73CFE269DA43100E1190F /* FeedControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD73CFD269DA43100E1190F /* FeedControllerViewModel.swift */; };
+		0CD73D00269DCCB000E1190F /* PostViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD73CFF269DCCB000E1190F /* PostViewCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +96,7 @@
 		0CB4587D267CCBC300773DBD /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		0CB4587F267CCBDD00773DBD /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		0CD73CFD269DA43100E1190F /* FeedControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedControllerViewModel.swift; path = MockInstagram/Controller/FeedControllerViewModel.swift; sourceTree = SOURCE_ROOT; };
+		0CD73CFF269DCCB000E1190F /* PostViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				0CD73CFD269DA43100E1190F /* FeedControllerViewModel.swift */,
+				0CD73CFF269DCCB000E1190F /* PostViewCellViewModel.swift */,
 				0C4E83CB269B47D4007FF76B /* ProfileHeaderViewModel.swift */,
 				0C4E39C22683854200BD9C65 /* AuthenticationViewModel.swift */,
 				0C4E83C9269B331B007FF76B /* ProfileViewModel.swift */,
@@ -356,6 +359,7 @@
 				0C4E83D0269C26BD007FF76B /* DescriptionTextView.swift in Sources */,
 				0CB4587E267CCBC300773DBD /* LoginController.swift in Sources */,
 				0C4E83CA269B331B007FF76B /* ProfileViewModel.swift in Sources */,
+				0CD73D00269DCCB000E1190F /* PostViewCellViewModel.swift in Sources */,
 				0C4E39BD26837F6C00BD9C65 /* ImageUploader.swift in Sources */,
 				0C1BA73D26996E9A00E1422B /* UserService.swift in Sources */,
 				0C4E83D4269C4590007FF76B /* Post.swift in Sources */,

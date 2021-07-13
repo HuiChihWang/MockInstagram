@@ -42,10 +42,18 @@ struct PostService {
                     completion(error)
                     return
                 }
+                
+                postCollections.document(postRef!.documentID).setData(
+                    ["pid": postRef!.documentID],
+                    merge: true) { error in
+                    if let error = error {
+                        completion(error)
+                        return
+                    }
 
-                let userData = ["posts": FieldValue.arrayUnion([postRef!.documentID])]
-
-                UserService.userCollections.document(currentUser.uid).updateData(userData, completion: completion)
+                    let userData = ["posts": FieldValue.arrayUnion([postRef!.documentID])]
+                    UserService.userCollections.document(currentUser.uid).updateData(userData, completion: completion)
+                }
             }
         }
     }
@@ -92,6 +100,28 @@ struct PostService {
             
             completion(post)
         }
+    }
+    
+    static func likePost(pid: String, completion: @escaping FirebaseCompletion) {
+        guard let currentUser = AuthService.currentUser else {
+            return
+        }
+        
+        postCollections.document(pid).updateData(
+            ["likes": FieldValue.arrayUnion([currentUser.uid])],
+            completion: completion
+        )
+    }
+    
+    static func unlikePost(pid: String, completion: @escaping FirebaseCompletion) {
+        guard let currentUser = AuthService.currentUser else {
+            return
+        }
+        
+        postCollections.document(pid).updateData(
+            ["likes": FieldValue.arrayRemove([currentUser.uid])],
+            completion: completion
+        )
     }
     
     

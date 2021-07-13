@@ -14,10 +14,21 @@ struct Post {
     let ownerUid: String
     let date: Date
     
+    let pid: String
+    
     var likes = [String]()
     
+    var isLikedByCurrentUser: Bool {
+        guard let userId = AuthService.currentUser?.uid else {
+            return false
+        }
+        
+        return likes.contains(userId)
+    }
+    
     init?(data: [String: Any]) {
-        guard let url = data["photoUrl"] as? String ,
+        guard let pid = data["pid"] as? String,
+              let url = data["photoUrl"] as? String ,
               let description = data["description"] as? String,
               let ownerUid = data["owner"] as? String,
               let date = (data["date"] as? Timestamp)?.dateValue()
@@ -30,7 +41,7 @@ struct Post {
         self.description = description
         self.ownerUid = ownerUid
         self.date = date
-        
+        self.pid = pid
         self.likes = data["likes"] as? [String] ?? []
     }
 }

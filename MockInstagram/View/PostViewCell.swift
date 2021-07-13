@@ -9,15 +9,18 @@ import UIKit
 import SDWebImage
 
 class PostViewCell: UICollectionViewCell {
-    
-    var post: Post? {
+    var viewModel: PostViewCellViewModel? {
         didSet {
-            configure()
+            if let viewModel = viewModel {
+                viewModel.delegate = self
+                configurePost()
+            }
         }
     }
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
+        
         createStackToHandleCommentRegion()
         createSaveButton()
         createMoreButton()
@@ -27,23 +30,10 @@ class PostViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configure() {
-        guard let post = post else {
-            return
-        }
-        
-        likesNumber.text = "\(post.likes.count) likes"
-        postImageView.sd_setImage(with: URL(string: post.photoUrl))
-        
-        UserService.fetchUser(with: post.ownerUid) { user in
-            guard let user = user else {
-                return
-            }
-            DispatchQueue.main.async {
-                self.accountImageView.sd_setImage(with: URL(string: user.imageUrl ?? ""))
-                self.accountName.setTitle(user.userName, for: .normal)
-            }
-        }
+    private func configurePost() {
+        likesNumber.text = viewModel?.likeLabel
+        postImageView.sd_setImage(with: URL(string: viewModel?.photoUrl ?? ""))
+        likeButton.setImage(viewModel?.likeButtonImage, for: .normal)
     }
     
     private func createStackToHandleCommentRegion() {
@@ -62,6 +52,8 @@ class PostViewCell: UICollectionViewCell {
         
         contentView.addSubview(buttonsStack)
         buttonsStack.anchor(left: likesNumber.leftAnchor, bottom: likesNumber.topAnchor, paddingBottom: 10)
+        
+        likeButton.addTarget(self, action: #selector(likePhoto), for: .touchUpInside)
     }
     
     private func createSaveButton() {
@@ -76,7 +68,7 @@ class PostViewCell: UICollectionViewCell {
         moreButton.setDimensions(height: size, width: size)
         moreButton.centerY(inView: accountImageView, leftAnchor: leftAnchor, paddingLeft: frame.width - size - 15)
         
-       
+        
     }
     
     private lazy var moreButton: UIButton = {
@@ -127,13 +119,9 @@ class PostViewCell: UICollectionViewCell {
     }()
     
     
-    private lazy var likeButton: UIImageView = {
-        let likeButtonView = UIImageView()
-        likeButtonView.image = UIImage(named: "like_unselected")
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likePhoto))
-        
-        likeButtonView.addGestureRecognizer(tapGesture)
+    private let likeButton: UIButton = {
+        let likeButtonView = UIButton()
+        likeButtonView.tintColor = .red
         return likeButtonView
     }()
     
@@ -188,7 +176,7 @@ class PostViewCell: UICollectionViewCell {
     }
     
     @objc private func likePhoto() {
-        print("You like this photo")
+        viewModel?.likePhoto()
     }
     
     @objc private func leaveComment() {
@@ -205,5 +193,21 @@ class PostViewCell: UICollectionViewCell {
     
     @objc private func showMoreAction() {
         print("Show More Actions")
+    }
+}
+
+extension PostViewCell: PostViewCellViewModelDelegate {
+    func didPostLikeStatusChanged() {
+        DispatchQueue.main.async {
+            self.likeButton.setImage(self.viewModel?.likeButtonImage, for: .normal)
+            self.likesNumber.text = self.viewModel?.likeLabel
+        }
+    }
+    
+    func didUserFetched(user: User) {
+        DispatchQueue.main.async {
+            self.accountImageView.sd_setImage(with: URL(string: user.imageUrl ?? ""))
+            self.accountName.setTitle(user.userName, for: .normal)
+        }
     }
 }
