@@ -13,9 +13,21 @@ class ProfileController: UICollectionViewController {
     init(userID: String) {
         viewModel = ProfileViewModel(userId: userID)
         
-        super.init(collectionViewLayout: viewModel.flowLayout)
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = viewModel.photoSpacing.horizontal
+        layout.minimumLineSpacing = viewModel.photoSpacing.vertical
+        super.init(collectionViewLayout: layout)
+        
+        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "\(ProfileCell.self)")
+        
+        collectionView.register(PostViewCell.self, forCellWithReuseIdentifier: "\(PostViewCell.self)")
+        
+        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(ProfileHeader.self)")
+        
+        collectionView.backgroundColor = viewModel.backgroundColor
+        
         viewModel.delegate = self
-        viewModel.initCollectionViewCell(collectionView: collectionView)
     }
     
     required init?(coder: NSCoder) {
@@ -61,15 +73,23 @@ extension ProfileController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ProfileCell.self)", for: indexPath)
+        let cellId = viewModel.displayMode == .grid ? "\(ProfileCell.self)" : "\(PostViewCell.self)"
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
         
         let postId = viewModel.user.posts[indexPath.item]
-        
         PostService.fetchPost(by: postId) { post in
-            guard let postUrl = post?.photoUrl else {
+            guard let post = post else {
                 return
             }
-            (cell as? ProfileCell)?.configure(url: postUrl)
+            
+            if self.viewModel.displayMode == .grid {
+                
+                (cell as? ProfileCell)?.configure(url: post.photoUrl)
+                
+            } else {
+                (cell as? PostViewCell)?.viewModel = PostViewCellViewModel(post: post)
+            }
         }
         
         return cell
@@ -78,8 +98,7 @@ extension ProfileController {
 
 extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemSize = viewModel.getPhotoSize(gridWidth: collectionView.frame.width)
-        return CGSize(width: itemSize, height: itemSize)
+        return viewModel.getCellSize(gridWidth: collectionView.frame.width, displayMode: viewModel.displayMode)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -125,6 +144,11 @@ extension ProfileController: ProfileHeaderDelegate {
     
     func didChangeDisplayStyle(mode: DisplayMode) {
         print("[DEBUG] profile controller: change display mode to \(mode.rawValue)")
+        viewModel.displayMode = mode
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+        
     }
 }
 

@@ -16,6 +16,7 @@ protocol ProfileViewModelDelegate: AnyObject {
 class ProfileViewModel {
     
     let userId: String
+    var displayMode: DisplayMode = .grid
     
     private(set) var user = User() {
         didSet {
@@ -23,21 +24,11 @@ class ProfileViewModel {
         }
     }
     
-    let flowLayout = UICollectionViewFlowLayout()
     weak var delegate: ProfileViewModelDelegate?
     
     init(userId: String) {
         self.userId = userId
         fetchPage()
-        initCollectionViewLayout()
-    }
-    
-    func initCollectionViewCell(collectionView: UICollectionView) {
-        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: "\(ProfileCell.self)")
-        
-        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "\(ProfileHeader.self)")
-        
-        collectionView.backgroundColor = backgroundColor
     }
     
     func fetchPage() {
@@ -47,14 +38,8 @@ class ProfileViewModel {
             }
         }
     }
-        
-    private func initCollectionViewLayout() {
-        flowLayout.scrollDirection = .vertical
-        flowLayout.minimumInteritemSpacing = photoSpacing.horizontal
-        flowLayout.minimumLineSpacing = photoSpacing.vertical
-    }
     
-    private var photoSpacing: (horizontal: CGFloat, vertical: CGFloat) {
+    var photoSpacing: (horizontal: CGFloat, vertical: CGFloat) {
         return (1, 1)
     }
     
@@ -64,10 +49,14 @@ class ProfileViewModel {
     
     var headerHeight: CGFloat = 240
     
-    func getPhotoSize(gridWidth: CGFloat) -> CGFloat {
-        let horizontalSpacing = photoSpacing.horizontal
-        let itemSize = (gridWidth - horizontalSpacing * CGFloat(numberOfPhotosPerRow - 1)) / CGFloat(numberOfPhotosPerRow)
-        
-        return itemSize
+    func getCellSize(gridWidth: CGFloat, displayMode: DisplayMode = .grid) -> CGSize {
+        switch displayMode {
+        case .grid:
+            let horizontalSpacing = photoSpacing.horizontal
+            let itemSize = (gridWidth - horizontalSpacing * CGFloat(numberOfPhotosPerRow - 1)) / CGFloat(numberOfPhotosPerRow)
+            return CGSize(width: itemSize, height: itemSize)
+        default:
+            return CGSize(width: gridWidth, height: 700)
+        }
     }
 }
