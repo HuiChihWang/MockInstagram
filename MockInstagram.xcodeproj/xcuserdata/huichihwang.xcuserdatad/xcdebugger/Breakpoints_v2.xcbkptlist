@@ -116,53 +116,5 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "149B8DEA-74CB-43D2-8B95-0D5080D201F0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MockInstagram/View/PostViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
-            landmarkName = "didPostSaveStatusChanged(isSaved:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "149B8DEA-74CB-43D2-8B95-0D5080D201F0 - 6e200ded87b6b853"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MockInstagram.PostViewCell.didPostSaveStatusChanged(isSaved: Swift.Bool) -&gt; ()"
-                  moduleName = "MockInstagram"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/huichihwang/Developer/MockInstagram/MockInstagram/View/PostViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "204"
-                  endingLineNumber = "204"
-                  offsetFromSymbolStart = "158">
-               </Location>
-               <Location
-                  uuid = "149B8DEA-74CB-43D2-8B95-0D5080D201F0 - 778ce52f2c404dbf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in MockInstagram.PostViewCell.didPostSaveStatusChanged(isSaved: Swift.Bool) -&gt; ()"
-                  moduleName = "MockInstagram"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/huichihwang/Developer/MockInstagram/MockInstagram/View/PostViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "205"
-                  endingLineNumber = "205"
-                  offsetFromSymbolStart = "41">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
