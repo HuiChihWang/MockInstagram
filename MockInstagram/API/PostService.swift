@@ -124,5 +124,26 @@ struct PostService {
         )
     }
     
+    static func savePost(pid: String, completion: @escaping FirebaseCompletion) {
+        guard let currentUser = AuthService.currentUser else {
+            return
+        }
+        
+        UserService.userCollections.document(currentUser.uid).updateData(
+            ["saves": FieldValue.arrayUnion([pid])],
+            completion: completion
+        )
+    }
+    
+    static func removeSavedPost(pid: String, completion: @escaping FirebaseCompletion) {
+        guard let currentUser = AuthService.currentUser else {
+            return
+        }
+        
+        UserService.userCollections.document(currentUser.uid).updateData(
+            ["saves": FieldValue.arrayRemove([pid])],
+            completion: completion
+        )
+    }
     
 }

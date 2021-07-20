@@ -29,6 +29,7 @@ struct User {
     var followings = [String]()
     var followers = [String]()
     var posts = [String]()
+    var savedPosts = [String]()
     
     init() {
     }
@@ -51,5 +52,6 @@ struct User {
         self.followings = data["followings"] as? [String] ?? []
         self.followers = data["followers"] as? [String] ?? []
         self.posts = data["posts"] as? [String] ?? []
+        self.savedPosts = data["saves"] as? [String] ?? []
     }
 }

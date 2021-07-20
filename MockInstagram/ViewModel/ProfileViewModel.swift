@@ -24,6 +24,14 @@ class ProfileViewModel {
         }
     }
     
+    var data: [String] {
+        displayMode == .save ? user.savedPosts : user.posts
+    }
+    
+    var cellIdentifier: String {
+        displayMode == .grid ? "\(ProfileCell.self)" : "\(PostViewCell.self)"
+    }
+    
     weak var delegate: ProfileViewModelDelegate?
     
     init(userId: String) {

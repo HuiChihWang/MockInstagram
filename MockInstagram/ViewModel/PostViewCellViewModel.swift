@@ -11,15 +11,16 @@ import UIKit
 protocol PostViewCellViewModelDelegate: AnyObject {
     func didUserFetched(user: User)
     func didPostLikeStatusChanged()
+    func didPostSaveStatusChanged(isSaved: Bool)
 }
 
 class PostViewCellViewModel {
-    weak var delegate: PostViewCellViewModelDelegate?
+    private weak var delegate: PostViewCellViewModelDelegate?
     private var post: Post
+    private var saved: Bool = false
     
-    
-    var saveButtonImage: UIImage {
-        return #imageLiteral(resourceName: "ribbon")
+    var savedButtonImage: UIImage? {
+        return saved ? UIImage(named: "ribbon-fill")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ribbon")
     }
     
     var likeButtonImage: UIImage {
@@ -41,14 +42,20 @@ class PostViewCellViewModel {
     }
     
     
-    init(post: Post) {
+    init(post: Post, delegate: PostViewCellViewModelDelegate? = nil) {
         self.post = post
+        self.delegate = delegate
         UserService.fetchUser(with: post.ownerUid) { user in
             guard let user = user else {
                 print("[DEBUG] cannot fetch user from post")
                 return
             }
             self.delegate?.didUserFetched(user: user)
+        }
+        
+        post.checkIsPhotoSavedByCurrentUser { saved in
+            self.saved = saved
+            self.delegate?.didPostSaveStatusChanged(isSaved: saved)
         }
     }
     
@@ -74,6 +81,23 @@ class PostViewCellViewModel {
             
             PostService.likePost(pid: post.pid) { error in
                 self.delegate?.didPostLikeStatusChanged()
+            }
+        }
+    }
+    
+    func savePhoto() {
+        self.saved.toggle()
+        post.checkIsPhotoSavedByCurrentUser { saved in
+            let saveIntention = saved ? PostService.removeSavedPost : PostService.savePost
+            let debugStr = saved ? "unsave" : "save"
+            
+            saveIntention(self.post.pid) { error in
+                if let error = error {
+                    print("[DEBUG] \(debugStr) post fail: \(error.localizedDescription)")
+                    return
+                }
+                print("[DEBUG] \(debugStr) post success")
+                self.delegate?.didPostSaveStatusChanged(isSaved: !saved)
             }
         }
     }

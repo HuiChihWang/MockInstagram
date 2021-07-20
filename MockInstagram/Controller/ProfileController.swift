@@ -58,7 +58,27 @@ class ProfileController: UICollectionViewController {
 extension ProfileController {
     //TODO: Reorder the posts by date
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.user.posts.count
+        return viewModel.data.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.cellIdentifier, for: indexPath)
+        
+        let postId = viewModel.data[indexPath.item]
+        PostService.fetchPost(by: postId) { post in
+            guard let post = post else {
+                return
+            }
+            if self.viewModel.displayMode == .grid {
+                
+                (cell as? ProfileCell)?.configure(url: post.photoUrl)
+                
+            } else {
+                let postCell = cell as? PostViewCell
+                postCell?.viewModel = PostViewCellViewModel(post: post, delegate: postCell)
+            }
+        }
+        return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -70,29 +90,6 @@ extension ProfileController {
         view.configureUser(user: viewModel.user)
         view.delegate = self
         return view
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellId = viewModel.displayMode == .grid ? "\(ProfileCell.self)" : "\(PostViewCell.self)"
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        
-        let postId = viewModel.user.posts[indexPath.item]
-        PostService.fetchPost(by: postId) { post in
-            guard let post = post else {
-                return
-            }
-            
-            if self.viewModel.displayMode == .grid {
-                
-                (cell as? ProfileCell)?.configure(url: post.photoUrl)
-                
-            } else {
-                (cell as? PostViewCell)?.viewModel = PostViewCellViewModel(post: post)
-            }
-        }
-        
-        return cell
     }
 }
 

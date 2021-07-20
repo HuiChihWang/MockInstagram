@@ -26,6 +26,17 @@ struct Post {
         return likes.contains(userId)
     }
     
+    func checkIsPhotoSavedByCurrentUser(completion: @escaping (Bool) -> Void) {
+        UserService.fetchCurrentUser { user in
+            guard let user = user else {
+                completion(false)
+                return
+            }
+            
+            completion(user.savedPosts.contains(pid))
+        }
+    }
+    
     init?(data: [String: Any]) {
         guard let pid = data["pid"] as? String,
               let url = data["photoUrl"] as? String ,

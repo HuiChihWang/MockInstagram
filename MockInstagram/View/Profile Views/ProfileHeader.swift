@@ -76,7 +76,7 @@ class ProfileHeader: UICollectionReusableView {
         let listButton = UIButton()
         listButton.setImage(#imageLiteral(resourceName: "list").withRenderingMode(.alwaysTemplate) , for: .normal)
         let savedButton = UIButton()
-        savedButton.setImage(#imageLiteral(resourceName: "ribbon").withRenderingMode(.alwaysTemplate), for: .normal)
+        savedButton.setImage(#imageLiteral(resourceName: "saved").withRenderingMode(.alwaysTemplate), for: .normal)
         
         displayButtons = [gridButton, listButton, savedButton]
         displayButtons.forEach { button in

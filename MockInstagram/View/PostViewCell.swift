@@ -11,10 +11,7 @@ import SDWebImage
 class PostViewCell: UICollectionViewCell {
     var viewModel: PostViewCellViewModel? {
         didSet {
-            if let viewModel = viewModel {
-                viewModel.delegate = self
-                configurePost()
-            }
+            configurePost()
         }
     }
     
@@ -32,7 +29,6 @@ class PostViewCell: UICollectionViewCell {
         dateLabel.text = viewModel?.dateLabel
         postImageView.sd_setImage(with: URL(string: viewModel?.photoUrl ?? ""))
         likeButton.setImage(viewModel?.likeButtonImage, for: .normal)
-        saveButton.setImage(viewModel?.saveButtonImage, for: .normal)
     }
     
     private func configureUI() {
@@ -115,7 +111,7 @@ class PostViewCell: UICollectionViewCell {
     
     private let likeButton: UIButton = {
         let likeButtonView = UIButton()
-        likeButtonView.tintColor = .red
+        likeButtonView.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
         return likeButtonView
     }()
     
@@ -135,7 +131,8 @@ class PostViewCell: UICollectionViewCell {
     
     private let saveButton: UIButton = {
         let saveButton = UIButton()
-        saveButton.setDimensions(height: 25, width: 25)
+        saveButton.setDimensions(height: 30, width: 30)
+        saveButton.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         return saveButton
         
     }()
@@ -181,6 +178,7 @@ class PostViewCell: UICollectionViewCell {
     
     @objc private func savePost() {
         print("Save Post")
+        viewModel?.savePhoto()
     }
     
     @objc private func showMoreAction() {
@@ -200,6 +198,12 @@ extension PostViewCell: PostViewCellViewModelDelegate {
         DispatchQueue.main.async {
             self.accountImageView.sd_setImage(with: URL(string: user.imageUrl ?? ""))
             self.accountName.setTitle(user.userName, for: .normal)
+        }
+    }
+    
+    func didPostSaveStatusChanged(isSaved: Bool) {
+        DispatchQueue.main.async {
+            self.saveButton.setImage(self.viewModel?.savedButtonImage, for: .normal)
         }
     }
 }
