@@ -10,16 +10,29 @@ import UIKit
 
 protocol ProfileHeaderViewModelDelegate: AnyObject {
     func didUserInfoUpdated(user: User)
+    func didChangeDisplayMode(mode: DisplayMode)
 }
 
+enum DisplayMode: Int {
+    case grid = 0
+    case list = 1
+    case save = 2
+}
 
 class ProfileHeaderViewModel {
     static let buttonBorderColor = UIColor.gray
     static let buttonBorderWidth: CGFloat = 1
     
+    
     var user = User() {
         didSet {
             delegate?.didUserInfoUpdated(user: user)
+        }
+    }
+    
+    var displayMode = DisplayMode.grid {
+        didSet {
+            delegate?.didChangeDisplayMode(mode: displayMode)
         }
     }
     

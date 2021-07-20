@@ -44,6 +44,7 @@ class ProfileController: UICollectionViewController {
 }
 
 extension ProfileController {
+    //TODO: Reorder the posts by date
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.user.posts.count
     }
@@ -55,6 +56,7 @@ extension ProfileController {
         }
         
         view.configureUser(user: viewModel.user)
+        view.delegate = self
         return view
     }
     
@@ -99,6 +101,30 @@ extension ProfileController: ProfileViewModelDelegate {
             self.collectionView.refreshControl?.endRefreshing()
             self.collectionView.reloadData()
         }
+    }
+}
+
+extension ProfileController: ProfileHeaderDelegate {
+    func didTapOnFollowings(followings: [String]) {
+        let usersController = UsersTableViewController()
+        usersController.navigationItem.title = "Followings"
+        usersController.userIds = followings
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(usersController, animated: true)
+        }
+    }
+    
+    func didTapOnFollowers(followers: [String]) {
+        let usersController = UsersTableViewController()
+        usersController.navigationItem.title = "Followers"
+        usersController.userIds = followers
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(usersController, animated: true)
+        }
+    }
+    
+    func didChangeDisplayStyle(mode: DisplayMode) {
+        print("[DEBUG] profile controller: change display mode to \(mode.rawValue)")
     }
 }
 

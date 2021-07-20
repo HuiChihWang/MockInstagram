@@ -107,5 +107,28 @@ struct UserService {
             completion(user)
         }
     }
+    
+    static func fetchUsers(with requests: [String], completion: @escaping ([User]) -> Void) {
+        var users = [User]()
+        fetchAllUsers { allUsers in
+            users = allUsers.filter({ user in
+                requests.contains(user.uid)
+            })
+            completion(users)
+        }
+        
+        let group = DispatchGroup()
+        
+        requests.forEach { request in
+            fetchUser(with: request) { user in
+                DispatchQueue.global().async(group: group) {
+                    guard let user = user else {
+                        return
+                    }
+                    users.append(user)
+                }
+            }
+        }
+    }
 }
 

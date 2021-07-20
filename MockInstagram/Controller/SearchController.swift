@@ -37,7 +37,7 @@ class SearchController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(SearchResultTableCell.self, forCellReuseIdentifier: "\(SearchResultTableCell.self)")
+        tableView.register(UserTableCell.self, forCellReuseIdentifier: "\(UserTableCell.self)")
         tableView.register(NothingFoundCell.self, forCellReuseIdentifier: "\(NothingFoundCell.self)")
         tableView.register(FetchingCell.self, forCellReuseIdentifier: "\(FetchingCell.self)")
         
@@ -84,8 +84,8 @@ extension SearchController {
             cell = tableView.dequeueReusableCell(withIdentifier: "\(NothingFoundCell.self)", for: indexPath)
         }
         else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "\(SearchResultTableCell.self)", for: indexPath)
-            (cell as? SearchResultTableCell)?.user = displayUsers[indexPath.row]
+            cell = tableView.dequeueReusableCell(withIdentifier: "\(UserTableCell.self)", for: indexPath)
+            (cell as? UserTableCell)?.user = displayUsers[indexPath.row]
         }
         
         cell.selectionStyle = .none
@@ -106,7 +106,6 @@ extension SearchController {
 extension SearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text?.lowercased() ?? ""
-//        print("[DEBUG] Search Updater: updating \(query)")
 
         filteredUsers = allUsers.filter({ user in
             return user.userName.contains(query) || user.fullName.contains(query)

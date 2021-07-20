@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SDWebImage
 
-class SearchResultTableCell: UITableViewCell {
+class UserTableCell: UITableViewCell {
     var user: User? {
         didSet {
             configure()

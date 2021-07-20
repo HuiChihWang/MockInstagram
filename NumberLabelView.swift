@@ -44,6 +44,7 @@ class NumberLabelView: UIStackView {
         addArrangedSubview(titleLabel)
         axis = .vertical
         spacing = 5
+        isUserInteractionEnabled = true
     }
     
     required init(coder: NSCoder) {
